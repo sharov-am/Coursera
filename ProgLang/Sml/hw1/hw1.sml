@@ -1,4 +1,4 @@
-(*Problem1*)
+(*Problem 1*)
 
 fun is_older(date1:int*int*int, date2:int*int*int) =
     let 
@@ -21,7 +21,7 @@ fun is_older(date1:int*int*int, date2:int*int*int) =
             year1 < year2
     end   		
 
-(*Problem2*)
+(*Problem 2*)
 
 fun number_in_month(dates:(int*int*int) list, month:int) =
    if null dates
@@ -35,8 +35,37 @@ fun number_in_month(dates:(int*int*int) list, month:int) =
 
 
 
-(*Problem6*)           
+(*Problem 3*)
 
+fun number_in_months(dates:(int*int*int) list, months:int list) =
+    if null months
+    then 0
+    else
+        number_in_month(dates,hd months) + number_in_months(dates, tl months)
+        
+(*Problem 4*)
+
+fun dates_in_month( dates:(int*int*int) list, month:int) =
+    if null dates
+    then []
+    else 
+         if #2 (hd dates) = month
+         then 
+            hd dates :: dates_in_month (tl dates, month)  
+         else 
+            dates_in_month (tl dates, month)  
+
+
+(*Problem 5*)
+
+fun dates_in_months(dates: (int*int*int) list, months: int list) =
+    if null months
+    then []
+    else 
+        dates_in_month(dates,hd months) @  dates_in_months(dates,tl months) 
+      
+
+(*Problem6*)           
 
 fun get_nth(str_list:string list, num:int) =
    if num = 1
@@ -46,4 +75,26 @@ fun get_nth(str_list:string list, num:int) =
       get_nth(tl str_list, num - 1)
 
 
+(*Problem 7*)
 
+fun date_to_string(date: int*int*int) =
+     let 
+         val  month = ["January", "February", "March", "April","May", "June", "July", "August", "September", "October", "November","December"]
+     in
+          get_nth(month,#2 date) ^ " " ^ Int.toString(#3 date) ^ "," ^ " " ^ Int.toString(#1 date)
+     end     
+
+(*Problem 8*)     
+
+fun number_before_reaching_sum(sum:int,numbers: int list) =
+    let 
+       
+       fun help_sum(psum:int, numbers: int list,index:int) = 
+           if   psum < sum
+           then
+                help_sum(psum + hd numbers, tl numbers,index + 1)
+           else
+                index - 1
+    in
+         help_sum(0, numbers, 0)
+    end            
