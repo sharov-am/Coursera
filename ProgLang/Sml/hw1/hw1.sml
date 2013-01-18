@@ -97,4 +97,45 @@ fun number_before_reaching_sum(sum:int,numbers: int list) =
                 index - 1
     in
          help_sum(0, numbers, 0)
-    end            
+    end   
+
+
+(*Problem 9*)     
+
+fun what_month(day: int) =
+    number_before_reaching_sum(day, [31,28,31,30,31,30,31,31,30,31,30,31])
+
+
+(*Problem 10*)     
+
+fun month_range(day1:int, day2:int)=
+     if day1 > day2
+     then []
+     else what_month(day1)::month_range(day1 + 1, day2)
+
+
+(*Problem 11*)     
+fun oldest(dates:(int*int*int) list)=
+   let 
+       fun helper(dates:(int*int*int) list, older:int*int*int) =
+           if null dates
+           then 
+                older
+           else
+                if is_older(older, hd dates)
+                then
+                     helper(tl dates, older)
+                else
+                     helper(tl dates,hd dates)
+    in
+      if null dates
+      then NONE
+      else SOME (helper(dates,hd dates))
+    end
+
+
+ 
+
+
+
+
