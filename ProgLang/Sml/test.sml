@@ -2,6 +2,7 @@ use "assert.sml";
 
 
 
+
 fun contains(values:int list, value:int) =
     if null values
     then false
@@ -26,6 +27,9 @@ fun remove_duplicate(m:int list,z: int list) =
 
 
 
+
+
+
 val z = contains([1,2,3,4,5],6);
 val z = contains([1,2,3,4,5],2);
 val z = contains([1,2,3,3,3],3);
@@ -34,5 +38,6 @@ val z = contains([1,2,3,3,3],3);
 val z = remove_duplicate([1,2,3,3,5],[]);
 val z = remove_duplicate([1,2,3,4,5],[]);
 val z = remove_duplicate([1,2,3,3,3],[]);
+val z = remove_duplicate([1,2,3,3,3,2,1,2,0,0],[]);
 
 
