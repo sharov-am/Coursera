@@ -103,7 +103,7 @@ fun number_before_reaching_sum(sum:int,numbers: int list) =
 (*Problem 9*)     
 
 fun what_month(day: int) =
-    number_before_reaching_sum(day, [31,28,31,30,31,30,31,31,30,31,30,31])
+    number_before_reaching_sum(day, [31,28,31,30,31,30,31,31,30,31,30,31]) + 1
 
 
 (*Problem 10*)     
@@ -115,6 +115,7 @@ fun month_range(day1:int, day2:int)=
 
 
 (*Problem 11*)     
+
 fun oldest(dates:(int*int*int) list)=
    let 
        fun helper(dates:(int*int*int) list, older:int*int*int) =
@@ -135,6 +136,69 @@ fun oldest(dates:(int*int*int) list)=
 
 
  
+(*Problem 12*)
+
+fun number_in_months_challenge(dates: (int*int*int) list, months: int list) =
+  let 
+      fun contains(values:int list, value:int) =
+          if null values
+          then false
+          else 
+              if value = (hd values)
+              then true
+              else contains(tl values,value)
+
+
+
+      fun remove_duplicate(m:int list,z: int list) = 
+          if null m
+          then []
+          else 
+               if contains(z,hd m) 
+               then remove_duplicate(tl m,z)
+               else (hd m) :: remove_duplicate(tl m,hd m::z)
+  in
+       number_in_months(dates,remove_duplicate(months,[]))
+  end
+
+fun dates_in_months_challenge(dates: (int*int*int) list, months: int list) =
+  let 
+      fun contains(values:int list, value:int) =
+          if null values
+          then false
+          else 
+              if value = (hd values)
+              then true
+              else contains(tl values,value)
+
+      fun remove_duplicate(m:int list,z: int list) = 
+          if null m
+          then []
+          else 
+               if contains(z,hd m) 
+               then remove_duplicate(tl m,z)
+               else (hd m) :: remove_duplicate(tl m,hd m::z)
+  in
+       dates_in_months(dates,remove_duplicate(months,[]))
+  end
+
+
+(*Problem 13
+
+fun reasonable_date(date: int*int*int) =
+    let 
+        val year = #1 date
+        val month = #2 date
+        val day = #3 date
+    in    
+
+      if year >= 1 andalso (month >= 1 andalso month <=12 orelse #3 date < 1
+      then false
+      else false
+
+    end
+*)
+
 
 
 
