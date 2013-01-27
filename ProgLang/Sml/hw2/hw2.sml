@@ -4,23 +4,25 @@ fun same_string(s1 : string, s2 : string) =
     s1 = s2
 
 
-fun all_except_option(str:string,str_l:string list)=
-  		let fun has_string(sl:string list) =
+ fun all_except_option(str,str_l)=
+  		let fun helper(sl,sl2) =
 		       case sl of
-				[] => []
+				[] => (false, [])
 				| x::xs=> if same_string(x,str)
-						  then   true
-						  else   has_string(xs))  
-		let fun get_string(xs:string list) =
-		       case xs of
-				[] => []
-				| x::xs=> if same_string(x,str)
-						  then   xs
-						  else   x::(has_string(xs))  
-  			in
-  	   			if has_string(str_l)
-  	   			then SOME get_string(str_l)
-  	   			else NONE
-    		end
+						  then   (true,  sl2@xs)
+						  else   helper(xs,sl2@[x])
+  		in
+  	       case helper(str_l,[]) of 
+  	   	   (true, t) => SOME t
+  	   	   |_=> NONE
+  	    end 
 
 
+
+(*
+fun get_substitutions1(sll:string list list,str:string) =
+    
+    case sll of
+    	[] => []
+    	| x::xs => *)
+    	    
