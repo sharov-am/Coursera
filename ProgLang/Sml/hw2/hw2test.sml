@@ -16,5 +16,7 @@ assert(true,fn () => all_except_option("d",["a"]) = NONE,"test6");
 assert(true,fn () => get_substitutions1([["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]],"Fred") = 
 										["Fredrick","Freddie","F"],"test1");
 
-assert(true,fn () => get_substitutions1(get_substitutions1([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]],"Jeff") = 
-															["Jeffrey","Geoff","Jeffrey"],"test2");
+assert(true,fn () => get_substitutions1([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]],"Jeff") = 
+									    ["Jeffrey","Geoff","Jeffrey"],"test2");
+
+assert(true,fn () => get_substitutions1([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]],"some") = [],"test3");
