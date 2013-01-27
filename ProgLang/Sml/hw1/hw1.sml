@@ -183,21 +183,42 @@ fun dates_in_months_challenge(dates: (int*int*int) list, months: int list) =
   end
 
 
-(*Problem 13
+(*Problem 13*)
 
 fun reasonable_date(date: int*int*int) =
     let 
         val year = #1 date
         val month = #2 date
         val day = #3 date
-    in    
 
-      if year >= 1 andalso (month >= 1 andalso month <=12 orelse #3 date < 1
-      then false
-      else false
+        fun is_leap_year() =
+           if (year mod 400 = 0) orelse (year mod 4 = 0 andalso year mod 100 <> 0)
+           then true
+           else false
+
+        fun is_day_valid(days_in_months:int list,month_index:int) =
+           if month_index - 1 = 0
+           then
+                 day <= hd days_in_months
+           else 
+               is_day_valid(tl days_in_months, month_index - 1)
+
+    in    
+     
+     if year >=1 andalso month >= 1 andalso month <= 12 andalso
+                         day >= 1 andalso day <=366
+
+     then
+          if is_leap_year()
+          then
+               is_day_valid([31,29,31,30,31,30,31,31,30,31,30,31], month)
+          else
+               is_day_valid([31,28,31,30,31,30,31,31,30,31,30,31], month)
+     
+     else false
 
     end
-*)
+
 
 
 

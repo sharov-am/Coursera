@@ -109,7 +109,7 @@ assert(true,fn () => oldest([(2012,3,4)]) = SOME(2012,3,4) ,"problem11 test3");
 assert(true,fn () => oldest([]) = NONE ,"problem11 test3");
 
 
-(*Problem12 test *)
+(*Problem 12 test *)
 
 assert(true,fn () => number_in_months_challenge( [(2011,11,8),(2013,1,8)] , [11,11]) = 1,"problem3 test1");
 assert(true,fn () => number_in_months_challenge( [(2011,11,8),(2013,1,8)] , [9,9,8] ) = 0,"problem3 test no match");
@@ -125,6 +125,18 @@ assert(true,fn () => dates_in_months_challenge( [(2011,11,8),(2012,11,8)] , [11,
 assert(true,fn () => dates_in_months_challenge([(2011,11,8),(2013,1,8),(2013,2,8)] , [2,1,1,2]) = [(2013,2,8), (2013,1,8)],"problem5 no match test");
 assert(true,fn () => dates_in_months_challenge([(2011,11,8),(2013,1,8),(2013,12,8),(2011,6,8),(2013,2,8),(2013,12,1)] , [12]) = [(2013,12,8),(2013,12,1)],"problem5 two match");
 assert(true,fn () => dates_in_months_challenge([(2011,1,8),(2013,2,8),(2013,3,8),(2011,4,8),(2013,5,8),(2013,6,8)], [1,2,3,4,5,6])  = [(2011,1,8),(2013,2,8),(2013,3,8),(2011,4,8),(2013,5,8),(2013,6,8)],"problem5 all match");
+
+
+(*Problem 13 test *)
+
+
+assert(true,fn () => reasonable_date((2013,7,2)) = true," problem13 test1");
+assert(true,fn () => reasonable_date((2012,2,29)) = true," problem13 leap test");
+assert(true,fn () => reasonable_date((2013,2,29)) = false," problem13 test2");
+assert(true,fn () => reasonable_date((2013,3,29)) = true," problem13 test3");
+assert(true,fn () => reasonable_date((2013,2,32)) = false," problem13 test4");
+assert(true,fn () => reasonable_date((1000,2,75)) = false," problem13 test5");
+assert(true,fn () => reasonable_date((1450,13,75)) = false," problem13 test6");
 
 
 
