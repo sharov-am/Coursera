@@ -1,226 +1,222 @@
-(*Problem 1*)
+(*
+Problem 1
 
-fun is_older(date1:int*int*int, date2:int*int*int) =
-    let 
-      val year1 =  #1 date1 
-      val year2 =  #1 date2
-      val month1 = #2 date1
-      val month2 = #2 date2
-      val day1 =   #3 date1
-      val day2 =   #3 date2
-    in
-       if year1 = year2
-       then   
-            if  month2 = month1
-            then 
-                day1 < day2
-            else 
-                month1 < month2
-       
-       else
-            year1 < year2
-    end       
+Lecturer question: I would have liked to have looped through the tuple indices,
+but the # operator seems to be a static environment macro
+e.g. in pseudo code a helper function like:
 
-(*Problem 2*)
+is_older(date1, date2, n) =
+   n > 0 andalso
+   (#n date1 < #n date2 orelse
+   is_older(date1, date2, n-1))
 
-fun number_in_month(dates:(int*int*int) list, month:int) =
-   if null dates
-   then 0
-   else
-      if (#2 (hd dates)) = month 
-      then
-           1 + number_in_month((tl dates),month)
-      else
-           number_in_month((tl dates),month)
+but #n didn't seem to work, as per limitation.
 
+*)
 
+fun is_older(date1: int*int*int, date2:int*int*int) =
+    (* date is year*month*day, so compare each value in sequence *)
+    (#1 date1) < (#1 date2)
+    orelse (#2 date1) < (#2 date2)
+    orelse  (#3 date1) < (#3 date2)
 
-(*Problem 3*)
-
-fun number_in_months(dates:(int*int*int) list, months:int list) =
-    if null months
+(* problem 2 *)
+fun number_in_month(dates: (int * int * int) list, month:int) =
+    if null dates
     then 0
     else
-        number_in_month(dates,hd months) + number_in_months(dates, tl months)
-        
-(*Problem 4*)
+        (* extract a variable for the applying to the tail of the list, for readability *)
+  let val tail_number =  number_in_month(tl dates, month)
+  in
+      if ((#2 (hd dates)) = month) 
+      then
+    (* add 1 *) 
+    1 + tail_number
+      else 
+    tail_number 
+  end
 
-fun dates_in_month( dates:(int*int*int) list, month:int) =
+(* problem 3 *)
+fun number_in_months(dates: (int * int * int) list, months: int list) =
+    if null months
+    then 0
+    else number_in_month(dates, hd months) + number_in_months(dates, tl months)
+
+(* problem 4 *)
+fun dates_in_month(dates: (int * int * int) list, month:int) =
     if null dates
     then []
-    else 
-         if #2 (hd dates) = month
-         then 
-            hd dates :: dates_in_month (tl dates, month)  
-         else 
-            dates_in_month (tl dates, month)  
+    else let
+  val head =  hd dates
+        (* extract a variable for the applying to the tail of the list, for readability *)
+  val tail_dates  = dates_in_month(tl dates, month)
+    in
+  if #2 head = month
+  then head :: tail_dates
+  else tail_dates
+    end
 
-
-(*Problem 5*)
-
-fun dates_in_months(dates: (int*int*int) list, months: int list) =
+(* problem 5 *)
+fun dates_in_months(dates : (int * int * int) list, months: int list) =
     if null months
     then []
-    else 
-        dates_in_month(dates,hd months) @  dates_in_months(dates,tl months) 
-      
+    else dates_in_month(dates, hd months) @ dates_in_months(dates, tl months)
 
-(*Problem6*)           
+(* problem 6 *)
+fun get_nth(strings: string list, n: int) =
+    if n = 1
+    then hd strings
+    else get_nth(tl strings, n-1)
 
-fun get_nth(str_list:string list, num:int) =
-   if num = 1
-   then 
-        hd str_list
-   else
-      get_nth(tl str_list, num - 1)
-
-
-(*Problem 7*)
-
+(* problem 7 *)
 fun date_to_string(date: int*int*int) =
-     let 
-         val  month = ["January", "February", "March", "April","May", "June", "July", "August", "September", "October", "November","December"]
-     in
-          get_nth(month,#2 date) ^ " " ^ Int.toString(#3 date) ^ "," ^ " " ^ Int.toString(#1 date)
-     end     
-
-(*Problem 8*)     
-
-fun number_before_reaching_sum(sum:int,numbers: int list) =
-    let 
-       
-       fun help_sum(psum:int, numbers: int list,index:int) = 
-           if   psum < sum
-           then
-                help_sum(psum + hd numbers, tl numbers,index + 1)
-           else
-                index - 1
+    let
+  (* extract variable, purely for readability
+       but it's likely in the 'real world' there would be some sort of
+       helper function to get the month names in, say, German or French *)
+  val month_names = ["January", "February", "March", "April",
+         "May", "June", "July", "August", "September", "October", "November", "December"]
     in
-         help_sum(0, numbers, 0)
-    end   
-
-
-(*Problem 9*)     
-
-fun what_month(day: int) =
-    number_before_reaching_sum(day, [31,28,31,30,31,30,31,31,30,31,30,31]) + 1
-
-
-(*Problem 10*)     
-
-fun month_range(day1:int, day2:int)=
-     if day1 > day2
-     then []
-     else what_month(day1)::month_range(day1 + 1, day2)
-
-
-(*Problem 11*)     
-
-fun oldest(dates:(int*int*int) list)=
-   let 
-       fun helper(dates:(int*int*int) list, older:int*int*int) =
-           if null dates
-           then 
-                older
-           else
-                if is_older(older, hd dates)
-                then
-                     helper(tl dates, older)
-                else
-                     helper(tl dates,hd dates)
-    in
-      if null dates
-      then NONE
-      else SOME (helper(dates,hd dates))
+  (* (2013, 1, 20) -> January 20, 2013) *)
+  get_nth(month_names, #2 date) ^ " " ^ Int.toString(#3 date) ^ ", " ^ Int.toString(#1 date)
     end
 
+(* problem 8 *)
+fun number_before_reaching_sum(sum : int, ints : int list) =
+    let val subtraction = sum - (hd ints)
+    in 
+  if subtraction > 0 
+  then 1 +  number_before_reaching_sum(subtraction, tl ints)
+  else 0
+    end
 
- 
-(*Problem 12*)
+(* a list of ints representing the lengths of months in a non leap-year
+   declaring this list outside of the problem 7. what_month function
+   because it is reused for challenge problem 13 below
+ *)
+val month_lengths = [31,28,31,30,31,30,31,31,30,31,30,31]
 
-fun number_in_months_challenge(dates: (int*int*int) list, months: int list) =
+(* problem 9 *)
+fun what_month(day_of_year: int) =
+    1 + number_before_reaching_sum(day_of_year, month_lengths)
+
+
+(* problem 10 *)
+fun month_range(day1 : int, day2: int) =
+    if day1 > day2
+    then []
+    else what_month(day1) :: month_range(day1+1, day2)
+
+
+(* problem 11 *)
+fun oldest(dates: (int * int * int) list) =
+    if null dates
+    then NONE
+    else 
   let 
-      fun contains(values:int list, value:int) =
-          if null values
-          then false
-          else 
-              if value = (hd values)
-              then true
-              else contains(tl values,value)
-
-
-
-      fun remove_duplicate(m:int list,z: int list) = 
-          if null m
-          then []
-          else 
-               if contains(z,hd m) 
-               then remove_duplicate(tl m,z)
-               else (hd m) :: remove_duplicate(tl m,hd m::z)
+      fun oldest_nonempty(dates :  (int * int * int) list) =
+    let
+        (* as per video, not a performance concern but neater *)
+        val head = hd dates
+        val tail = tl dates
+    in 
+        if null tail
+        then head
+        else let val tail_oldest = oldest_nonempty(tail)
+       in
+           if is_older(head, tail_oldest)
+           then head
+           else tail_oldest
+       end
+    end
   in
-       number_in_months(dates,remove_duplicate(months,[]))
-  end
-
-fun dates_in_months_challenge(dates: (int*int*int) list, months: int list) =
-  let 
-      fun contains(values:int list, value:int) =
-          if null values
-          then false
-          else 
-              if value = (hd values)
-              then true
-              else contains(tl values,value)
-
-      fun remove_duplicate(m:int list,z: int list) = 
-          if null m
-          then []
-          else 
-               if contains(z,hd m) 
-               then remove_duplicate(tl m,z)
-               else (hd m) :: remove_duplicate(tl m,hd m::z)
-  in
-       dates_in_months(dates,remove_duplicate(months,[]))
+      SOME(oldest_nonempty dates) 
   end
 
 
-(*Problem 13*)
+(* challenge: remove duplicate months - a function to return unique elements from a non-empty list *)
+fun remove_duplicates_challenge (xs: int list) =
+    if null (tl xs) then [hd xs]
+    else (* have both tail and head *)
+  let
+      (* A function to check existence of an int in a non-empty list *) 
+      fun exists(x: int, xs:int list) =
+    (* either the head element is the one we're looking for
+     or the tail is non empty and contains it *)
+    hd xs = x orelse
+      (not (null(tl xs)) andalso exists(x, tl xs))
 
-fun reasonable_date(date: int*int*int) =
-    let 
-        val year = #1 date
-        val month = #2 date
-        val day = #3 date
+      (* call on tail *)
+      val tail_remove_duplicates_challenge = remove_duplicates_challenge(tl xs)
+  in
+      if exists(hd xs, tl xs)
+      then tail_remove_duplicates_challenge
+      else hd xs :: tail_remove_duplicates_challenge
+  end
 
-        fun is_leap_year() =
-           if (year mod 400 = 0) orelse (year mod 4 = 0 andalso year mod 100 <> 0)
-           then true
-           else false
+(* challenge: function to remove duplicate months before applying number_in_months *)
+fun number_in_months_challenge(dates: (int * int * int) list, months: int list) =
+    (* as with the original problem, handle empty months gracefully.
+       but don't increase complexity of remove_duplicates_challenge utility function *)
+    if null months
+    then 0
+    else number_in_months(dates, remove_duplicates_challenge(months))
 
-        fun is_day_valid(days_in_months:int list,month_index:int) =
-           if month_index - 1 = 0
-           then
-                 day <= hd days_in_months
-           else 
-               is_day_valid(tl days_in_months, month_index - 1)
+(*  challenge: function to remove duplicate months before applying dates_in_months *)
+fun dates_in_months_challenge(dates : (int * int * int) list, months: int list) =
+    (* as with the original problem, handle empty months gracefully.
+       but don't increase complexity of remove_duplicates_challenge utility function *)
+    if null months
+    then []
+    else dates_in_months(dates, remove_duplicates_challenge(months))
 
-    in    
-     
-     if year >=1 andalso month >= 1 andalso month <= 12 andalso
-                         day >= 1 andalso day <=366
 
-     then
-          if is_leap_year()
-          then
-               is_day_valid([31,29,31,30,31,30,31,31,30,31,30,31], month)
-          else
-               is_day_valid([31,28,31,30,31,30,31,31,30,31,30,31], month)
-     
-     else false
+(* define a helper function to get the nth month length 
+   NB: this logic is identical to the solution for problem 6 but it uses ints instead of strings
+   Implementation Note: As not used elsewhere, I could have defined this as a privated nested function inside
+   reasonable_date but for consistency, I am providing unit test equivalents for this function, as per problem 6.
 
+   So this is a question of implementation: how can we define list operations regardless of data type?
+   Dr Dan mentioned an alpha type 'a but declaring xs: a' list doesn't work
+
+ *)
+fun get_nth_int(ints: int list, n: int) =
+    if n = 1
+    then hd ints
+    else get_nth_int(tl ints, n-1)
+
+
+(*  challenge: check whether a date is valid in the common era (CE ~ AD), using Gregorian Calendar *)
+fun reasonable_date(date: int * int * int) =
+
+    (* declare variables up front for clarity *)
+    let
+  val year = #1 date
+  val month = #2 date
+  val day = #3 date
+         
+  (* nested funtion to get the # of days in a month
+           like is_leap_year() this is called lazily through andalso clause *)
+  fun days_in_month() =
+      let 
+    val non_leap_length = get_nth_int(month_lengths, month)
+    (* function to evaluate whether the date represents a leap year
+                   declaring as a function because is called via andalso
+                   i.e. lazy evaluation if not February *)
+    fun is_leap_year() =
+        year mod 400 = 0 orelse
+        (year mod 100 > 0 andalso year mod 4 = 0)
+      in
+    if (month = 2 andalso is_leap_year()) 
+    then non_leap_length + 1
+    else non_leap_length
+      end
+    in
+  year > 0 andalso
+  month > 0 andalso
+  day > 0 andalso
+  (* number of months hard coded to 12 - but could read length of month_lengths list dynamically
+          e.g. to support lunar 13-month calendars *)
+  month <= 12 andalso
+  day <= days_in_month()
     end
-
-
-
-
-
-
