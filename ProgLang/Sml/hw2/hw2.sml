@@ -1,4 +1,21 @@
-(*use "hw2provided.sml";*)
+fun same_string(s1 : string, s2 : string) =
+    s1 = s2
+
+(* put your solutions for problem 1 here *)
+
+(* you may assume that Num is always used with values 2, 3, ..., 9
+   though it will not really come up *)
+datatype suit = Clubs | Diamonds | Hearts | Spades
+datatype rank = Jack | Queen | King | Ace | Num of int 
+type card = suit * rank
+
+datatype color = Red | Black
+datatype move = Discard of card | Draw 
+
+exception IllegalMove
+
+(* put your solutions for problem 2 here *)
+
 
 fun same_string(s1 : string, s2 : string) =
     s1 = s2
@@ -24,4 +41,34 @@ fun get_substitutions1(sll:string list list,str:string) =
     	| x::xs => case all_except_option(str,x) of
   	    	         NONE => get_substitutions1(xs,str)
     	           | SOME lst =>lst@get_substitutions1(xs,str)
-    	    
+
+
+fun get_substitutions2(sll:string list list,str:string) =
+     let fun helper(sll_1) = 
+         case sll_1 of
+         [] => [] 
+         | x::xs => case all_except_option(str,x) of 
+         				 NONE => helper(xs)
+         				 |SOME lst => lst@helper(xs)
+     in
+		helper(sll)
+     end
+
+
+fun similar_names(sll,full_name:{first:string, last:string, middle:string})=
+    let  fun substitute(sll_1,fio:{first:string,last:string,middle:string}) = 
+           case sll_1 of
+           [] => []
+           | x::xs => case fio of
+                       {first = a,last = b,middle = c}  => {first = x, last = b, middle = c}::substitute(xs,fio)
+    in
+       case full_name of
+        {first = l,last = k, middle = m} => {first =l,last = k,middle = m}::
+        									substitute( get_substitutions1(sll,l),{first = l, last = k, middle = m})
+    end
+
+fun card_color card =
+  case card of
+    Clubs  => Black
+   |Spades => Black
+   | _ => Red
