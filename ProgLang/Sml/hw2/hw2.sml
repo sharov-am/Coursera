@@ -69,6 +69,15 @@ fun similar_names(sll,full_name:{first:string, last:string, middle:string})=
 
 fun card_color card =
   case card of
-    Clubs  => Black
-   |Spades => Black
+    (Clubs,_)  => Black
+   |(Spades,_) => Black
    | _ => Red
+
+fun card_value card = 
+  case card of
+   (_, Num v) => v
+  |(_, Ace) => 11
+  |(_,_) => 10
+
+
+
