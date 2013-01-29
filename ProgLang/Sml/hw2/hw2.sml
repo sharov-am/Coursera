@@ -105,7 +105,7 @@ fun all_same_color cs =
                          then all_same_color(xs)
                          else false
 
-(*Problem2 d *)
+(*Problem2 e *)
 fun sum_cards cs =
    let fun helper(cs_1) =
        case cs_1 of 
