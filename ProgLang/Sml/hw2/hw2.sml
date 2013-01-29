@@ -1,7 +1,3 @@
-fun same_string(s1 : string, s2 : string) =
-    s1 = s2
-
-(* put your solutions for problem 1 here *)
 
 (* you may assume that Num is always used with values 2, 3, ..., 9
    though it will not really come up *)
@@ -20,7 +16,7 @@ exception IllegalMove
 fun same_string(s1 : string, s2 : string) =
     s1 = s2
 
-
+(*Problem1 a *)
  fun all_except_option(str,str_list)=
   		let fun helper(sl,str_list2) =
 		       case sl of
@@ -34,7 +30,7 @@ fun same_string(s1 : string, s2 : string) =
   	   	   |_=> NONE
   	    end 
 
-
+(*Problem1 b *)
 fun get_substitutions1(sll:string list list,str:string) =
      case sll of
     	[] => []
@@ -42,7 +38,7 @@ fun get_substitutions1(sll:string list list,str:string) =
   	    	         NONE => get_substitutions1(xs,str)
     	           | SOME lst =>lst@get_substitutions1(xs,str)
 
-
+(*Problem1 c *)
 fun get_substitutions2(sll:string list list,str:string) =
      let fun helper(sll_1) = 
          case sll_1 of
@@ -54,7 +50,7 @@ fun get_substitutions2(sll:string list list,str:string) =
 		helper(sll)
      end
 
-
+(*Problem1 d *)
 fun similar_names(sll,full_name:{first:string, last:string, middle:string})=
     let  fun substitute(sll_1,fio:{first:string,last:string,middle:string}) = 
            case sll_1 of
@@ -67,12 +63,15 @@ fun similar_names(sll,full_name:{first:string, last:string, middle:string})=
         									substitute( get_substitutions1(sll,l),{first = l, last = k, middle = m})
     end
 
+(*Problem2 a *)
+
 fun card_color card =
   case card of
     (Clubs,_)  => Black
    |(Spades,_) => Black
    | _ => Red
 
+(*Problem2 b *)
 fun card_value card = 
   case card of
    (_, Num v) => v
@@ -80,4 +79,96 @@ fun card_value card =
   |(_,_) => 10
 
 
+(*Problem2 c *)
+fun remove_card(cs, c, e) = 
+   let fun helper(cs_1,acc)=
+        case cs_1 of 
+        []=>[]
+        | x::xs => if x=c 
+                   then acc@xs
+                   else helper(xs,x::acc)
 
+    in
+       case helper(cs,[]) of
+        []=>raise e
+        | x::xs => x::xs
+    end
+
+
+(*Problem2 d *)
+fun all_same_color cs =
+  case cs  of
+   [] => true
+   | x :: xs => case xs of 
+                [] => true
+                | y::ys => if card_color(x) = card_color(y)
+                         then all_same_color(xs)
+                         else false
+
+(*Problem2 e *)
+fun sum_cards cs =
+   let fun helper(cs_1) =
+       case cs_1 of 
+       []=>0
+       | x::xs => card_value(x) + helper(xs)
+   in
+       helper cs
+   end  
+
+(*Problem2 f *)
+fun score(cs, goal) =
+   let 
+       fun calc_score() =
+           let 
+              val sum = sum_cards cs              
+           in 
+             case (sum > goal) of
+              true  => 3*(sum - goal)
+             |false => (goal - sum)
+           end
+   in
+     case (all_same_color cs) of 
+      true  => calc_score() div 2
+     |false => calc_score()
+   end
+
+
+(*Problem2 g *)
+fun officiate(card_list,move_list,goal) =
+    let fun helper(card_list2,held_list,move_list2) =
+             case move_list2 of
+                  [] => score(held_list,goal)
+                  |x::xs => case x of
+        	                 Draw => (case card_list2 of 
+        	               		 	 	   [] => score(held_list,goal) 
+        	               			 	   |y::ys => if sum_cards(y::held_list) > goal
+        	                        			     then score(held_list,goal)
+        	                        		   		 else helper(ys,y::held_list,xs)) 
+        	                 |Discard card => helper(card_list2,remove_card(held_list,card,IllegalMove),xs)
+         
+     in     
+           helper(card_list,[],move_list)	       
+     end      
+
+
+(*Problem3 a*)
+(*
+fun careful_player(card_list,goal) = 
+   let fun helper(card_list2,held_list,move_list) =
+          let 
+              val current_held_sum = sum_cards(held_list)
+              val  current_score = score(held_list,goal)
+          in  
+              if current_score = 0
+              then move_list
+              else 
+              case card_list2 of
+                   [] => move_list
+                   |x::xs => case x of
+                   |x::y::xs =>
+        	               
+         end
+     in     
+           helper(card_list,[],move_list)	       
+     end        
+*)
