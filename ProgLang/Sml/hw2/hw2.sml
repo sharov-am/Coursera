@@ -94,11 +94,42 @@ fun remove_card(cs, c, e) =
         | x::xs => x::xs
     end
 
+
 (*Problem2 d *)
 fun all_same_color cs =
   case cs  of
    [] => true
    | x :: xs => case xs of 
-               y::ys => if card_color(x) = card_color(y)
-                        then all_same_color(xs)
-                        else false
+                [] => true
+                | y::ys => if card_color(x) = card_color(y)
+                         then all_same_color(xs)
+                         else false
+
+(*Problem2 d *)
+fun sum_cards cs =
+   let fun helper(cs_1) =
+       case cs_1 of 
+       []=>0
+       | x::xs => card_value(x) + helper(xs)
+   in
+       helper cs
+   end  
+
+(*Problem2 f *)
+fun score(cs, goal) =
+   let 
+       fun calc_score() =
+           let 
+              val sum = sum_cards cs              
+           in 
+             case (sum > goal) of
+              true  => 3*(sum - goal)
+             |false => (goal - sum)
+           end
+   in
+     case (all_same_color cs) of 
+      true  => calc_score() div 2
+     |false => calc_score()
+   end
+
+
