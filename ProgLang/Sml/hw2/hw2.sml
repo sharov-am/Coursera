@@ -127,10 +127,13 @@ fun score(cs, goal) =
              |false => (goal - sum)
            end
    in
-     case (all_same_color cs) of 
-      true  => calc_score() div 2
-     |false => calc_score()
+      case (all_same_color cs) of 
+        true  => calc_score() div 2
+       |false => calc_score()
    end
+
+
+
 
 
 (*Problem2 g *)
@@ -152,33 +155,75 @@ fun officiate(card_list,move_list,goal) =
 
 
 (*Problem3 a*)
-(*
-fun possible_to_discard(held_card,card,goal) =
- case held_card of
-   [] => (false,(Clubs, Num 10))
-   |x::xs => if score(card::remove_card(held_card,card,IllegalMove),goal) = 0
-   			 then (true,x)
-   			 else possible_to_discard(xs,card,goal)
 
-fun make_move(held_list,card_list,move_list,goal) =
-    if score(held_list,goal) = 0
-            then move_list
-            else  
-                case card_list of
-                [] => move_list
-                |x::xs => case held_list of 
-                              [] => Draw :: move_list
-                              |y::ys => case  possible_to_discard(held_list,x,goal) of
-                                       (true,x) => (Discard y)::Draw::move_list
-                                       |_ => if ((goal - sum_cards(x::held_list) > 10) orelse
-                                                (sum_cards(x::held_list) < goal))
-                                                then 
-                                                     make_move(xs,x::held_list,Draw::move_list,goal)
-                                                else
-                                                     make_move(xs,x::held_list,Discard y::move_list,goal)
-                                           
 
-*)
+fun score_challenge(cs, goal) =
+   let 
+       fun card_value_1(card,a) = 
+          case card of
+          (_, Num v) => v
+         |(_, Ace) => a
+         |(_,_) => 10
+       
+       fun sum_cards_1(cs,a) =
+          let fun helper_1(cs_1) =
+              case cs_1 of 
+              []=>0
+              | x::xs => card_value_1(x,a) + helper_1(xs)
+          in
+              helper_1 cs
+          end           
+
+
+       fun calc_score(a) =
+           let 
+              val sum = sum_cards_1(cs,a)
+           in 
+             case (sum > goal) of
+              true  => 3*(sum - goal)
+             |false => (goal - sum)
+           end
+
+       fun get_best_score() =
+         let 
+              val score1 = calc_score(1)
+              val score2 = calc_score(11)
+         in 
+           if score1 < score2
+           then score1
+           else score2
+         end   
+
+   in
+     case (all_same_color cs) of 
+      true  => get_best_score() div 2
+     |false => get_best_score()
+   end
+
+
+
+fun officiate(card_list,move_list,goal) =
+    let fun helper(card_list2,held_list,move_list2) =
+             case move_list2 of
+                  [] => score_challenge(held_list,goal)
+                  |x::xs => case x of
+                           Draw => (case card_list2 of 
+                                   [] => score_challenge(held_list,goal) 
+                                   |y::ys => if sum_cards(y::held_list) > goal
+                                             then score_challenge(held_list,goal)
+                                             else helper(ys,y::held_list,xs)) 
+                           |Discard card => helper(card_list2,remove_card(held_list,card,IllegalMove),xs)
+         
+     in     
+           helper(card_list,[],move_list)        
+     end      
+
+
+
+
+
+
+(*Problem3 b*)
 
 fun careful_player(card_list,goal) = 
     
