@@ -230,7 +230,7 @@ fun careful_player(card_list,goal) =
     let 
         fun possible_to_discard(held_card,card,goal) =
             case held_card of
-             [] => (false,(Clubs, Num 10))
+             [] => (false,(Clubs, Num 10))(*внимательно посмотреть на card и x*)
              |x::xs => if score(card::remove_card(held_card,card,IllegalMove),goal) = 0
                       then (true,x)
                       else possible_to_discard(xs,card,goal)
@@ -244,6 +244,7 @@ fun careful_player(card_list,goal) =
                         |x::xs => case held_list of 
                                       [] => Draw :: move_list
                                       |y::ys => case  possible_to_discard(held_list,x,goal) of
+                                               (*не путую ли я x и y*)
                                                (true,x) => (Discard y)::Draw::move_list
                                                |_ => if ((goal - sum_cards(held_list) > 10) orelse
                                                         (sum_cards(x::held_list) < goal))

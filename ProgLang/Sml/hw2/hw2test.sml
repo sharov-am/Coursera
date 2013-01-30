@@ -79,3 +79,6 @@ assert(true,fn () => score( [(Spades,Num 1), (Spades,Num 2) ,(Spades,Num 3)],3) 
 assert(true,fn () => score( [(Spades,Num 1), (Diamonds,Num 1)],4) = 2 ,"problem2_f test3");
 assert(true,fn () => score( [(Spades,Ace)],3) = 12 ,"problem2_f test4");
 assert(true,fn () => score( [(Spades,Num 1), (Diamonds,Num 2) ,(Spades,Num 3)],3) = 9 ,"problem2_f test5");
+
+
+val z = careful_player([(Spades,Num 7),(Hearts,King),(Clubs,Ace),(Diamonds,Num 2)],18);
