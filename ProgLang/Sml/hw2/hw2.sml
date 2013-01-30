@@ -152,7 +152,7 @@ fun officiate(card_list,move_list,goal) =
 
 
 (*Problem3 a*)
-
+(*
 fun possible_to_discard(held_card,card,goal) =
  case held_card of
    [] => (false,(Clubs, Num 10))
@@ -160,25 +160,52 @@ fun possible_to_discard(held_card,card,goal) =
    			 then (true,x)
    			 else possible_to_discard(xs,card,goal)
 
-fun careful_player(card_list,goal) = 
-   let fun helper(card_list2,held_list,move_list) =
-            if score(held_list,goal) = 0
+fun make_move(held_list,card_list,move_list,goal) =
+    if score(held_list,goal) = 0
             then move_list
-	        else  
-	            case card_list2 of
-	              [] => move_list
-	              |x::xs => case possible_to_discard(held_list,x,goal) of
-	              	            (true,x) => 
-	              	                         case held_list of
-	              	                           y::ys => (Discard y)::Draw::move_list
-	              	             |_ =>  if (goal - sum_cards(x::held_list) > 10) orelse (sum_cards(x::held_list) < goal)
-			                  			then helper(xs,x::held_list,Draw::move_list)
-			                  			else
-			                  			     helper(xs,x::held_list,Draw::move_list)
+            else  
+                case card_list of
+                [] => move_list
+                |x::xs => case held_list of 
+                              [] => Draw :: move_list
+                              |y::ys => case  possible_to_discard(held_list,x,goal) of
+                                       (true,x) => (Discard y)::Draw::move_list
+                                       |_ => if ((goal - sum_cards(x::held_list) > 10) orelse
+                                                (sum_cards(x::held_list) < goal))
+                                                then 
+                                                     make_move(xs,x::held_list,Draw::move_list,goal)
+                                                else
+                                                     make_move(xs,x::held_list,Discard y::move_list,goal)
+                                           
 
-                   
-        	               
-         end
-     in     
-           helper(card_list,[],move_list)	       
-     end        
+*)
+
+fun careful_player(card_list,goal) = 
+    
+    let 
+        fun possible_to_discard(held_card,card,goal) =
+            case held_card of
+             [] => (false,(Clubs, Num 10))
+             |x::xs => if score(card::remove_card(held_card,card,IllegalMove),goal) = 0
+                      then (true,x)
+                      else possible_to_discard(xs,card,goal)
+   
+        fun make_move(held_list,card_list,move_list,goal) =
+            if score(held_list,goal) = 0
+                    then move_list
+                    else  
+                        case card_list of
+                        [] => move_list
+                        |x::xs => case held_list of 
+                                      [] => Draw :: move_list
+                                      |y::ys => case  possible_to_discard(held_list,x,goal) of
+                                               (true,x) => (Discard y)::Draw::move_list
+                                               |_ => if ((goal - sum_cards(x::held_list) > 10) orelse
+                                                        (sum_cards(x::held_list) < goal))
+                                                        then 
+                                                             make_move(xs,x::held_list,Draw::move_list,goal)
+                                                        else
+                                                             make_move(xs,x::held_list,Discard y::move_list,goal)
+    in                                                             
+        make_move([],card_list,[],goal)
+    end    
