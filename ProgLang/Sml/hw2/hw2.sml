@@ -145,7 +145,7 @@ fun officiate(card_list,move_list,goal) =
         	                 Draw => (case card_list2 of 
         	               		 	 	   [] => score(held_list,goal) 
         	               			 	   |y::ys => if sum_cards(y::held_list) > goal
-        	                        			     then score(held_list,goal)
+        	                        			     then score(y::held_list,goal)
         	                        		   		 else helper(ys,y::held_list,xs)) 
         	                 |Discard card => helper(card_list2,remove_card(held_list,card,IllegalMove),xs)
          
@@ -202,7 +202,7 @@ fun score_challenge(cs, goal) =
 
 
 
-fun officiate(card_list,move_list,goal) =
+fun officiate_challenge(card_list,move_list,goal) =
     let fun helper(card_list2,held_list,move_list2) =
              case move_list2 of
                   [] => score_challenge(held_list,goal)
@@ -210,7 +210,7 @@ fun officiate(card_list,move_list,goal) =
                            Draw => (case card_list2 of 
                                    [] => score_challenge(held_list,goal) 
                                    |y::ys => if sum_cards(y::held_list) > goal
-                                             then score_challenge(held_list,goal)
+                                             then score_challenge(y::held_list,goal)
                                              else helper(ys,y::held_list,xs)) 
                            |Discard card => helper(card_list2,remove_card(held_list,card,IllegalMove),xs)
          
@@ -245,7 +245,7 @@ fun careful_player(card_list,goal) =
                                       [] => Draw :: move_list
                                       |y::ys => case  possible_to_discard(held_list,x,goal) of
                                                (true,x) => (Discard y)::Draw::move_list
-                                               |_ => if ((goal - sum_cards(x::held_list) > 10) orelse
+                                               |_ => if ((goal - sum_cards(held_list) > 10) orelse
                                                         (sum_cards(x::held_list) < goal))
                                                         then 
                                                              make_move(xs,x::held_list,Draw::move_list,goal)
