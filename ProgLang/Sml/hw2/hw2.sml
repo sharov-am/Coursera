@@ -248,15 +248,15 @@ fun careful_player(card_list,goal) =
                  case card_list of
                       [] => move_list
                       |x::xs => case held_list of 
-                                     [] => make_move(x::held_list,xs,Draw :: move_list)
+                                     [] => make_move(x::held_list,xs,move_list@[Draw])
                                     |y::ys => case  possible_to_discard(held_list,held_list,x) of
-                                                    (true,x1) => (Discard x1)::Draw::move_list
+                                                    (true,x1) => move_list@[(Discard x1),Draw]
                                                    |_ => if ((goal - sum_cards(held_list) > 10) orelse
-                                                             (sum_cards(x::held_list) < goal))
+                                                             (sum_cards(x::held_list) <= goal))
                                                          then 
-                                                               make_move(x::held_list,xs,Draw::move_list)
+                                                               make_move(x::held_list,xs,move_list@[Draw])
                                                          else
-                                                               make_move(x::held_list,xs,Discard y::move_list)
+                                                               make_move(x::held_list,xs,move_list@[Discard y])
     in                                                             
         make_move([],card_list,[])
     end    
