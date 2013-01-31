@@ -155,7 +155,8 @@ fun officiate(card_list,move_list,goal) =
 
 (*Problem3 a*)
 
-
+(*Note. I suppose there exists more elegant solution,  but because of time pressure I decided
+  to brute force with little modifications of previous functions.*)
 fun score_challenge(cs, goal) =
    let 
        fun card_value_1(card,a) = 
@@ -200,7 +201,6 @@ fun score_challenge(cs, goal) =
    end
 
 
-
 fun officiate_challenge(card_list,move_list,goal) =
     let fun helper(card_list2,held_list,move_list2) =
              case move_list2 of
@@ -218,18 +218,9 @@ fun officiate_challenge(card_list,move_list,goal) =
      end      
 
 
-
-
-
-
 (*Problem3 b*)
-
-fun possible_to_discard2(held_card,check_list,card,goal) =
-            case check_list of
-             [] => (false, (Clubs, Num 10)) 
-             |x::xs => if score(card::remove_card(held_card, x, IllegalMove), goal) = 0
-                       then (true,x)
-                       else possible_to_discard2(held_card,xs,card,goal)
+(*Note. I don't think that my solution is totally correct even if it passed autograder tests.
+  So any hints, suggestions and interesting test cases would be appreciated. Thanks in advance.*)
 
 fun careful_player(card_list,goal) = 
     
