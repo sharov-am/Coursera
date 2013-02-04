@@ -224,13 +224,6 @@ fun officiate_challenge(card_list,move_list,goal) =
 
 (*Problem3 b*)
 
-fun possible_to_discard2(held_card,check_list,card,goal) =
-            case check_list of
-             [] => (false, (Clubs, Num 10)) 
-             |x::xs => if score(card::remove_card(held_card, x, IllegalMove), goal) = 0
-                       then (true,x)
-                       else possible_to_discard2(held_card,xs,card,goal)
-
 fun careful_player(card_list,goal) = 
     
     let 
@@ -240,6 +233,7 @@ fun careful_player(card_list,goal) =
              |x::xs => if score(card::remove_card(held_card, x, IllegalMove), goal) = 0
                        then (true,x)
                        else possible_to_discard(held_card,xs,card)
+                       
    
         fun make_move(held_list,card_list,move_list) =
             if score(held_list,goal) = 0
