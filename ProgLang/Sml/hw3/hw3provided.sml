@@ -37,5 +37,28 @@ datatype typ = Anything
 (**** you can put all your code here ****)
 
 
+(*Problem 1
+  Write a function only_capitals that takes a string list and returns a string list that has only
+  the strings in the argument that start with an uppercase letter. Assume all strings have at least 1
+  character. Use List.filter, Char.isUpper, and String.sub to make a 1-2 line solution.*)
 fun only_capitals str_list =  List.filter(fn x => Char.isUpper(String.sub(x,0))) (str_list)
 
+
+
+(*Problem 2
+  Write a function longest_string1 that takes a string list and returns the longest string in the
+  list. If the list is empty, return "". In the case of a tie, return the string closest to the beginning of the
+  list. Use foldl, String.size, and no recursion (other than the implementation of foldl is recursive).*)
+fun longest_string1 str_list = 
+      List.foldl (fn(x,y) => if (String.size(x) <= String.size(y)) then y else x) "" str_list;
+
+
+
+(*Problem 3
+  Write a function longest_string2 that is exactly like longest_string1 except in the case of ties
+  it returns the string closest to the end of the list. Your solution should be almost an exact copy of
+  longest_string1. Still use foldl and String.size.*)
+fun longest_string2 str_list = 
+      List.foldl (fn(x,y) => if (String.size(x) < String.size(y)) then y else x) "" str_list;
+              
+	
