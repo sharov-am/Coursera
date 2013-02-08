@@ -64,9 +64,9 @@ fun longest_string2 str_list =
 	
 (*Problem 4 
    Write functions longest_string_helper, longest_string3, and longest_string4 such that:
-     -- longest_string3 has the same behavior as longest_string1 and longest_string4 has the
+   -- longest_string3 has the same behavior as longest_string1 and longest_string4 has the
  	    same behavior as longest_string2.
-     -- longest_string_helper has type (int * int -> bool) -> string list -> string
+   -- longest_string_helper has type (int * int -> bool) -> string list -> string
 		(notice the currying). This function will look a lot like longest_string1 and longest_string2
 		but is more general because it takes a function as an argument.
 	 -- longest_string3 and longest_string4 are dened with val-bindings and partial applications
@@ -108,7 +108,7 @@ fun first_answer f ls=
     case ls of
     [] => raise NoAnswer
     | x::xs => case f(x) of
-                NONE=>first_answer f ls
+                NONE=> first_answer f xs
                |SOME v => v 
 
   
@@ -122,12 +122,123 @@ fun first_answer f ls=
    all_answers f [] should evaluate to SOME [].)
 *)
 
-fun all_answers f ls=  
-    case ls of
-    [] => raise NoAnswer
-    | x::xs => case f(x) of
-                NONE=>first_answer f ls
-               |SOME v => v 
+ 
+fun all_answers f lst=  
+    let 
+      val has_none = List.exists (fn x=> f(x) = NONE)
+       (*assumed that it won't be called if NONE present*)
+      val final_result = List.foldl (fn(x,acc)  => (case f(x) of SOME v => v@acc ))
+    in 
+    case lst of
+      [] => SOME []
+      |_=>if has_none lst 
+          then NONE
+          else SOME (final_result [] lst)
+    end             
+               
+    
+(*Problem 9a
+ Use g to deffine a function count_wildcards that takes a pattern and returns how many Wildcard
+ patterns it contains.
+*)
+
+val count_wildcards = g (fn _ => 1)(fn _ =>0)
+
+(*Problem 9b
+ Use g to dene a function count_wild_and_variable_lengths that takes a pattern and returns
+ the number of Wildcard patterns it contains plus the sum of the string lengths of all the variables
+ in the variable patterns it contains. (Use String.size. We care only about variable names; the
+ constructor names are not relevant.)
+*)
+
+val count_wild_and_variable_lengths = g (fn _ => 1)(fn str => String.size str);
+         
+(*Problem 9c
+  Use g to dene a function count_some_var that takes a string and a pattern (as a pair) and
+  returns the number of times the string appears as a variable in the pattern. We care only about
+  variable names; the constructor names are not relevant.
+*)    
+
+fun count_some_var (x,p) = g  (fn _ => 1)(fn str =>if x = str then 1 else 0) p ;
+
+(*Problem 10
+Write a function check_pat that takes a pattern and returns true if and only if all the variables
+appearing in the pattern are distinct from each other (i.e., use dierent strings). The constructor
+names are not relevant. Hints: The sample solution uses two helper functions. The rst takes a
+pattern and returns a list of all the strings it uses for variables. Using foldl with a function that
+uses append is useful in one case. The second takes a list of strings and decides if it has repeats.
+List.exists may be useful. Sample solution is 15 lines. These are hints: We are not requiring foldl
+and List.exists here, but they make it easier.
+)
+*)
+
+fun check_pat p = 
+  let 
+      fun get_str_list p = 
+         case p of
+            Variable x => [x] 
+           |TupleP ps  => List.foldl (fn (r,i) => get_str_list(r)@i) [] ps
+           | _ => []
+
+      fun do_same_exists x = List.exists(fn y => x = y ) 
+    
+      fun check_uniqueness lst =
+       case lst of
+        [] => true
+        | x::xs =>   if (do_same_exists x xs)
+                     then false
+                     else check_uniqueness xs
+  in
+    check_uniqueness ( get_str_list p)
+  end 
+
+
+(*Problem 11
+  Write a function match that takes a valu * pattern and returns a (string * valu) list option,  
+  namely NONE if the pattern does not match and SOME lst where lst is the list of bindings if it does.
+  Note that if the value matches but the pattern has no patterns of the form Variable s, then the result
+  is SOME []. Hints: Sample solution has one case expression with 7 branches. The branch for tuples
+  2
+   uses all_answers and ListPair.zip. Sample solution is 13 lines. Remember to look above for the
+   rules for what patterns match what values, and what bindings they produce. These are hints: We are
+  not requiring all_answers and ListPair.zip here, but they make it easier.
+ *)
+
+
+
+fun match (v,p)   =
+     case (v,p) of  
+      (_,Wildcard) => SOME []
+     |(Const v1,ConstP p1) =>SOME []
+     |(Unit,UnitP) =>SOME []
+     |(Constructor (s ,v1),ConstructorP (s1, p1) ) => if s = s1 then match(v1,p1) else SOME []
+     |(Tuple vs,TupleP ps) => if List.length vs = List.length ps 
+                              then case all_answers match (ListPair.zip(vs,ps))  of
+                                    SOME v2=>SOME v2
+                                   |_ => NONE
+                              else NONE
+     |(_, Variable s ) => SOME [(s,v)]
+     |(_,_) => NONE
+
+
+
+
+(*Problem 12
+  Write a function first_match that takes a value and a list of patterns and returns a
+  (string * valu) list option, namely NONE if no pattern in the list matches or SOME lst where
+  lst is the list of bindings for the rst pattern in the list that matches. Use first_answer and a
+  handle-expression. Hints: Sample solution is 3 lines.
+ *)
+
+fun first_match v p =
+    SOME (first_answer (fn x => match(v,x)) p)
+    handle NoAnswer =>NONE
+
+
+
+
+
+
 
 
 

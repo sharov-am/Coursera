@@ -65,4 +65,43 @@ assert(true,fn () => rev_string("123456") = "654321" ,"problem6 test2");
 assert(true,fn () => rev_string("") = "" ,"problem6 test3");
 
 
+(*Problem 7 test*)
 
+assert(true,fn () => first_answer (fn(x) => if x = 5 then SOME 5 else NONE)  [1,2,3,4,5]  = 5 ,"problem7 test1");
+assert(true,fn () => (first_answer (fn(x) => if x = 6 then SOME 6 else NONE)  [1,2,3,4,5]
+					handle NoAnswer => ~1 ) = ~1 ,"problem7 test2");
+
+(*Problem 8 test*)
+
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  []  =SOME [] ,"problem8 test1");
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  [1,2,3,4,5]  = NONE ,"problem8 test2");
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  [5]  = SOME [5] ,"problem8 test3");
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  [5,5]  = SOME [5,5] ,"problem8 test4");
+
+
+(*Problem 9a test*)
+
+assert(true,fn () => count_wildcards Wildcard   = 1 ,"problem9a test1");
+assert(true,fn () => count_wildcards (TupleP ([Wildcard]))   = 1 ,"problem9a test2");
+assert(true,fn () => count_wildcards (TupleP ([Wildcard,Wildcard]))   = 2 ,"problem9a test3");
+assert(true,fn () => count_wildcards (TupleP ([Wildcard,ConstP(1)]))  = 1 ,"problem9a test4");
+assert(true,fn () => count_wildcards (TupleP ([Wildcard,Wildcard,Wildcard,ConstP(1)]))  = 3 ,"problem9a test5");
+assert(true,fn () => count_wildcards (TupleP ([ConstP(1),ConstP(1)]))  = 0 ,"problem9a test6");
+
+(*Problem 9b test*)
+assert(true,fn () => count_wild_and_variable_lengths (TupleP ([Wildcard,Wildcard,Wildcard]))  = 3 ,"problem9b test1");
+assert(true,fn () => count_wild_and_variable_lengths (TupleP ([Wildcard,Wildcard,Variable("hi")]))  = 4 ,"problem9b test2");
+assert(true,fn () => count_wild_and_variable_lengths (TupleP ([Variable("hi")]))  = 2 ,"problem9b test3");
+assert(true,fn () => count_wild_and_variable_lengths (TupleP ([Variable("hi"),Variable"world",Wildcard,Wildcard]))  = 9 ,"problem9b test4");
+
+(*Problem 9c test*)
+assert(true,fn () => count_some_var("hi", (TupleP ([Variable("hi")])))  = 1 ,"problem9c test1");
+assert(true,fn () => count_some_var("hi", (TupleP ([Variable("hi"),Variable("hi"),Variable("h1")])))  = 2 ,"problem9c test2");
+assert(true,fn () => count_some_var("hi2", (TupleP ([Variable("hi"),Variable("hi"),Variable("h1")])))  = 0 ,"problem9c test3");
+
+
+(*Problem10 test*)
+assert(true,fn () => check_pat((TupleP ([Variable("")])))  = true ,"problem10 test1");
+assert(true,fn () => check_pat((TupleP ([Variable("hi")])))  = true ,"problem10 test1");
+assert(true,fn () => check_pat((TupleP ([Variable("hi"),Variable("hi"),Variable("h1")])))  = false ,"problem10 test2");
+assert(true,fn () => check_pat( (TupleP ([Variable("hi1"),Variable("hi2"),Variable("hi3")])))  = true ,"problem10 test3");
