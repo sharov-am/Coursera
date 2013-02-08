@@ -65,4 +65,15 @@ assert(true,fn () => rev_string("123456") = "654321" ,"problem6 test2");
 assert(true,fn () => rev_string("") = "" ,"problem6 test3");
 
 
+(*Problem 7 test*)
 
+assert(true,fn () => first_answer (fn(x) => if x = 5 then SOME 5 else NONE)  [1,2,3,4,5]  = 5 ,"problem7 test1");
+assert(true,fn () => (first_answer (fn(x) => if x = 6 then SOME 6 else NONE)  [1,2,3,4,5]
+					handle NoAnswer => ~1 ) = ~1 ,"problem7 test2");
+
+(*Problem 8 test*)
+
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  []  =SOME [] ,"problem8 test1");
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  [1,2,3,4,5]  = NONE ,"problem8 test2");
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  [5]  = SOME [5] ,"problem8 test3");
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  [5,5]  = SOME [5,5] ,"problem8 test4");

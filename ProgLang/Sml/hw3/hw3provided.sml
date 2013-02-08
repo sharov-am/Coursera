@@ -108,7 +108,7 @@ fun first_answer f ls=
     case ls of
     [] => raise NoAnswer
     | x::xs => case f(x) of
-                NONE=>first_answer f ls
+                NONE=> first_answer f xs
                |SOME v => v 
 
   
@@ -122,13 +122,24 @@ fun first_answer f ls=
    all_answers f [] should evaluate to SOME [].)
 *)
 
-fun all_answers f ls=  
-    case ls of
-    [] => raise NoAnswer
-    | x::xs => case f(x) of
-                NONE=>first_answer f ls
-               |SOME v => v 
+ 
+fun all_answers f lst=  
+    let 
+      val has_none     =  List.exists (fn x=> if f(x) = NONE then true else false)
+       (*assumed that it won't be called if NONE present*)
+      val final_result =  List.foldl (fn(x,acc)  => (case f(x) of SOME v => v@acc ))
+    in 
+    case lst of
+      [] => SOME []
+      |_=>if has_none lst 
+          then NONE
+          else SOME (final_result [] lst)
+    end             
+               
+    
 
+         
+    
 
 
 
