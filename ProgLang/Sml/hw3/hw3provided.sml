@@ -235,11 +235,108 @@ fun first_match v p =
     handle NoAnswer =>NONE
 
 
+(*(Challenge Problem) Write a function typecheck_patterns that \type-checks" a pattern list. Types
+for our made-up pattern language are dened by:
+datatype typ = Anything 
+| UnitT 
+| IntT 
+| TupleT of typ list 
+| Datatype of string 
+typecheck_patterns should have type ((string * string * typ) list) * (pattern list) -> typ option.
+The rst argument contains elements that look like ("foo","bar",IntT), which means constructor foo
+makes a value of type Datatype "bar" given a value of type IntT. Assume list elements all have dierent
+rst elds (the constructor name), but there are probably elements with the same second eld (the datatype
+name). Under the assumptions this list provides, you \type-check" the pattern list to see if there exists
+some typ (call it t) that all the patterns in the list can have. If so, return SOME t, else return NONE.
+You must return the \most lenient" type that all the patterns can have. For example, given patterns
+TupleP[Variable("x"),Variable("y")] and TupleP[Wildcard,Wildcard], return TupleT[Anything,Anything]
+even though they could both have type TupleT[IntT,IntT]. As another example, if the only patterns
+are TupleP[Wildcard,Wildcard] and TupleP[Wildcard,TupleP[Wildcard,Wildcard]], you must return
+TupleT[Anything,TupleT[Anything,Anything]].)
+*)
 
 
 
 
+fun get_pattern_type pattern =
+  let 
+   fun helper ptn =
+     case  ptn of
+      [] => []  
+     |x::xs  => (get_pattern_type x)::helper xs
+  in
+  
+  case pattern of
+    Wildcard => Anything
+   |UnitP => UnitT
+   |ConstP v => IntT
+   |TupleP v =>  TupleT(helper v)
+   |Variable v1 =>Anything
+   |ConstructorP(_,v)=>get_pattern_type v
+end
 
 
+(*Anything | Datatype of string | IntT | TupleT of typ list | UnitT*)
+(*
+fun get_most_lenient (typ1 ,typ2) =
+    let 
+       fun helper typelst =
+         case  typelst of
+          ([],[]) => []  
+         |(x::xs,y::ys)  => (get_most_lenient (x,y))::helper(xs,ys)
+    in
 
+       case (typ1,typ2) of
+         (_, Anything) =>typ1
+         |(Anything,_)=>typ2
+         |(Datatype s1,Datatype s2) => if s1 <> s2 then raise NoAnswer else typ1
+         |(IntT,IntT)=>IntT
+         |(UnitT,UnitT)=>UnitT
+         |(TupleT v1,TupleT v2) => TupleT(helper(v1,v2))
+         |(_,_)=> raise NoAnswer
+    end
+*)
+ fun get_most_lenient (typ1 ,typ2) =
+        let 
+          
+          (*helps to check datatype equivalence, meanigly if 
+            type names are equal then types must be the same, also checks whether
+            type name belongs to provided list*)
+          fun check_type_data type_data1 datatype_str  =
+               case type_data1 of
+               []=> raise NoAnswer
+               |(_,y,z)::xs => if y = typ_descr
+                               then z
+                               else check_type_data(typ_descr,xs) 
+          
+
+
+          fun helper typelst =
+              case  typelst of
+                    ([],[]) => []  
+                   |(x::xs,y::ys)  => (get_most_lenient (x,y))::helper(xs,ys)
+              in
+                 case (typ1,typ2) of
+                   (_, Anything) =>typ1
+                   |(Anything,_)=>typ2
+                   |(Datatype s1,Datatype s2) => if(check_type_data (type_data1 s1) =
+                                                    check_type_data (type_data1 s2))
+                                                 then typ1 (*typ1 == typ2*)
+                                                 else raise NoAnswer
+                                                  
+                   |(IntT,IntT)=>IntT
+                   |(UnitT,UnitT)=>UnitT
+                   |(TupleT v1,TupleT v2) => TupleT(helper(v1,v2))
+                   |(_,_)=> raise NoAnswer
+              end
+
+
+fun typecheck_patterns type_data pattern_list =
+     let 
+         
+         
+            in
+
+              (*main code here*)
+            end
 
