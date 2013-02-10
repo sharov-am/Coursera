@@ -105,3 +105,30 @@ assert(true,fn () => check_pat((TupleP ([Variable("")])))  = true ,"problem10 te
 assert(true,fn () => check_pat((TupleP ([Variable("hi")])))  = true ,"problem10 test1");
 assert(true,fn () => check_pat((TupleP ([Variable("hi"),Variable("hi"),Variable("h1")])))  = false ,"problem10 test2");
 assert(true,fn () => check_pat( (TupleP ([Variable("hi1"),Variable("hi2"),Variable("hi3")])))  = true ,"problem10 test3");
+
+(*Problem11 test*)
+
+val z = match( Tuple ([Const 1, Unit, Constructor("asd", Const 1), Constructor("dsa",Const 2)]), 
+			   TupleP([Variable("dsa1"), UnitP , Variable("dsa2") ,Variable("dsa3") ]));  
+			   
+
+assert(true,fn () => match( Const 1,TupleP ([Variable("")]))  = NONE ,"problem11 test1");
+assert(true,fn () => match( Const 1,ConstP 1)  = SOME [] ,"problem11 test2");
+assert(true,fn () => match( Tuple[ (Const 1), Unit,Constructor("asd", Const 1), Constructor("dsa",Const 2)], 
+							TupleP ([ConstP 1,UnitP,ConstructorP ("asd", ConstP 1),ConstructorP("dsa",ConstP 2) ]))  
+								  = SOME [] ,"problem11 test3");
+assert(true,fn () => match( Tuple[ (Const 1), Unit,Constructor("asd", Const 1), Constructor("dsa",Const 2)], 
+							TupleP ([Variable("dsa1"), UnitP , Variable("dsa2") ,Variable("dsa3")]))  
+								  = SOME [("dsa3",Constructor("dsa",Const 2)),("dsa2",Constructor("asd", Const 1)),
+								           ("dsa1",Const 1)] ,"problem11 test4");
+
+assert(true,fn () => match(Const 1,Variable("dsa1")) = SOME [("dsa1",Const 1)] ,"problem11 test5");
+assert(true,fn () => match(Tuple ([Const 1,Const 2]),Variable("dsa1")) = SOME [("dsa1",Tuple ([Const 1,Const 2]))] ,"problem11 test6");
+assert(true,fn () => match(Const 1,UnitP) = NONE ,"problem11 test7");
+assert(true,fn () => match(Constructor("dsa",Const 1),ConstructorP("dsa",Variable("z"))) =SOME [("z",Const 1)] ,"problem11 test8");
+
+(*Problem12 test*)
+
+assert(true,fn () => first_match (Constructor("dsa",Const 1)) ([UnitP,ConstP 1]) = NONE ,"problem12 test1");
+assert(true,fn () => first_match (Const 1) ([UnitP,Variable("z")]) =SOME [("z",Const 1)] ,"problem12 test2");
+assert(true,fn () => first_match (Const 1) ([Variable("z"),Variable("z1")]) =SOME [("z",Const 1)] ,"problem12 test2");
