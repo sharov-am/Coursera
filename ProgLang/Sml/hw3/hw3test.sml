@@ -98,7 +98,10 @@ assert(true,fn () => count_wild_and_variable_lengths (TupleP ([Variable("hi"),Va
 assert(true,fn () => count_some_var("hi", (TupleP ([Variable("hi")])))  = 1 ,"problem9c test1");
 assert(true,fn () => count_some_var("hi", (TupleP ([Variable("hi"),Variable("hi"),Variable("h1")])))  = 2 ,"problem9c test2");
 assert(true,fn () => count_some_var("hi2", (TupleP ([Variable("hi"),Variable("hi"),Variable("h1")])))  = 0 ,"problem9c test3");
+assert(true,fn () => count_some_var("wild",ConstructorP ("wild",(Wildcard)))  = 0 ,"problem9c test4");
+assert(true,fn () => count_some_var ("x",TupleP[TupleP[TupleP[Variable "x",ConstructorP("wild",Wildcard)],Wildcard],Variable "x"]) = 2 ,"problem9c test5");
 
+(*count_some_var("wild",ConstructorP ("wild",(Wildcard)))*)
 
 (*Problem10 test*)
 assert(true,fn () => check_pat((TupleP ([Variable("")])))  = true ,"problem10 test1");
@@ -108,8 +111,6 @@ assert(true,fn () => check_pat( (TupleP ([Variable("hi1"),Variable("hi2"),Variab
 
 (*Problem11 test*)
 
-val z = match( Tuple ([Const 1, Unit, Constructor("asd", Const 1), Constructor("dsa",Const 2)]), 
-			   TupleP([Variable("dsa1"), UnitP , Variable("dsa2") ,Variable("dsa3") ]));  
 			   
 
 assert(true,fn () => match( Const 1,TupleP ([Variable("")]))  = NONE ,"problem11 test1");
@@ -126,9 +127,64 @@ assert(true,fn () => match(Const 1,Variable("dsa1")) = SOME [("dsa1",Const 1)] ,
 assert(true,fn () => match(Tuple ([Const 1,Const 2]),Variable("dsa1")) = SOME [("dsa1",Tuple ([Const 1,Const 2]))] ,"problem11 test6");
 assert(true,fn () => match(Const 1,UnitP) = NONE ,"problem11 test7");
 assert(true,fn () => match(Constructor("dsa",Const 1),ConstructorP("dsa",Variable("z"))) =SOME [("z",Const 1)] ,"problem11 test8");
+assert(true,fn () => match(Constructor("dsa",Const 1),ConstructorP("dsa",Variable("z"))) =SOME [("z",Const 1)] ,"problem11 test8");
 
 (*Problem12 test*)
 
 assert(true,fn () => first_match (Constructor("dsa",Const 1)) ([UnitP,ConstP 1]) = NONE ,"problem12 test1");
 assert(true,fn () => first_match (Const 1) ([UnitP,Variable("z")]) =SOME [("z",Const 1)] ,"problem12 test2");
 assert(true,fn () => first_match (Const 1) ([Variable("z"),Variable("z1")]) =SOME [("z",Const 1)] ,"problem12 test2");
+
+(*Problem 13 test*)
+
+(*
+assert(true,fn () => typecheck_patterns [("abc","foo",IntT),("abc","foo2",UnitT)]  [TupleP([Variable("dsa1"), Variable("dsa2")]), TupleP([ConstP 1, ConstP 2])] = 
+			         SOME (TupleT [IntT,IntT]) ,"problem13 test1");
+
+val z = typecheck_patterns [("abc","foo",UnitT)]  [TupleP([ConstructorP("foo",UnitP)]), TupleP([ConstructorP("foo",UnitP), ConstP 2])];
+assert(true,fn () => typecheck_patterns [("abc","foo",UnitT)]  [TupleP([ConstructorP("foo",UnitP),Wildcard]), TupleP([ConstructorP("foo",UnitP), ConstP 2])] = 
+			         SOME (TupleT [Datatype("foo"), IntT]) ,"problem13 test2");
+assert(true,fn () => typecheck_patterns [("abc","foo",UnitT)]  [TupleP([ConstructorP("foo",UnitP)]), TupleP([ConstP 1, ConstP 2])] = 
+			         NONE ,"problem13 test3");
+*)
+
+
+val t1 = typecheck_patterns ([("A", "A", IntT), ("B", "B", UnitT)],
+            [
+              TupleP [ConstructorP ("A", ConstP 20)],
+              TupleP [ConstructorP ("A", ConstP 10)]
+            ])
+
+val t2 = typecheck_patterns ([],
+            [
+              TupleP [Wildcard, Wildcard],
+              TupleP [Wildcard, TupleP [Wildcard, Wildcard]]
+            ])
+
+val t3 = typecheck_patterns ([],
+            [   
+              TupleP [Wildcard, TupleP [Wildcard, Wildcard]],
+              TupleP [Wildcard, Wildcard]
+            ])
+val t4 = typecheck_patterns ([],
+            [
+              TupleP [Variable "x", Variable "y"],
+              TupleP [Wildcard, Wildcard]
+            ])
+val t5 = typecheck_patterns ([("A", "A", IntT), ("B", "AB", IntT)],
+             [
+               TupleP [ConstructorP ("A", ConstP 20)],
+               TupleP [ConstructorP ("B", ConstP 10)],
+               TupleP [ConstructorP ("A", ConstP 20), Wildcard],
+               TupleP [Wildcard]
+            ])
+val t6 = typecheck_patterns ([],
+             [
+               TupleP [ConstP 10, Wildcard],
+               TupleP [Wildcard, ConstP 20]
+            ])
+val t7 = typecheck_patterns ([], [Variable "x"])
+val t8 = typecheck_patterns ([], [ConstructorP ("A", ConstP 10)])
+val t9 = typecheck_patterns ([], [Wildcard, TupleP [Wildcard]])
+val t10 = typecheck_patterns ([("A", "ABCD", UnitT)], [Wildcard, ConstructorP ("A", UnitP)])
+
