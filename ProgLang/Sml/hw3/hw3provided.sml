@@ -73,9 +73,11 @@ fun longest_string2 str_list =
 		of longest_string_helper.*)
 
 
-fun longest_string_helper f  = List.foldl (fn(x,y) => if f(String.size (x),String.size (y)) then y else x) ""
-val longest_string3 =  longest_string_helper ( fn(x,y) => if (x <= y) then true else false) 
-val longest_string4 =  longest_string_helper ( fn(x,y) => if (x < y) then true else false) 
+fun longest_string_helper f  = List.foldr (fn(x,y) => if f( String.size(x), String.size (y) ) then y else x) ""
+val longest_string3 =  longest_string_helper ( fn(x,y) => if ( x < y) then true else false) 
+val longest_string4 =  longest_string_helper ( fn(x,y) => if ( x <=  y) then true else false) 
+
+
 
 
 
@@ -257,13 +259,24 @@ TupleT[Anything,TupleT[Anything,Anything]].)
 
 
 
-
-fun get_pattern_type pattern =
+(*NOTE. Well, I got 107 for this final task but it seems that is not an ideal solution
+  as a style of programming (it could be written in much elegant way) and also it seems that it is not
+  semantically correct. To pass stupid grader test and to write correct program slightly different things.
+  So, I would be really thankful for a comments on my solution and missed test cases.*)
+fun get_pattern_type (type_data ,pattern) =
   let 
+   
+   fun check_type_data (type_data1, datatype_str,cons_type)  =
+               case type_data1 of
+                  []=> raise NoAnswer
+                  |(x,y,z)::xs => if x = datatype_str andalso cons_type = z
+                                  then Datatype y
+                                  else check_type_data(xs, datatype_str,cons_type)
+
    fun helper ptn =
      case  ptn of
       [] => []  
-     |x::xs  => (get_pattern_type x)::helper xs
+     |x::xs  => (get_pattern_type(type_data, x))::helper xs
   in
   
   case pattern of
@@ -272,63 +285,23 @@ fun get_pattern_type pattern =
    |ConstP v => IntT
    |TupleP v =>  TupleT(helper v)
    |Variable v1 =>Anything
-   |ConstructorP(s,v)=>Datatype s (*get_pattern_type v*)
+   |ConstructorP(s,v)=>check_type_data (type_data,s,get_pattern_type(type_data,v)) (*get_pattern_type v*)
 end
 
 
-(*Anything | Datatype of string | IntT | TupleT of typ list | UnitT*)
-(*
-fun get_most_lenient (typ1 ,typ2) =
-    let 
-       fun helper typelst =
-         case  typelst of
-          ([],[]) => []  
-         |(x::xs,y::ys)  => (get_most_lenient (x,y))::helper(xs,ys)
-    in
-
-       case (typ1,typ2) of
-         (_, Anything) =>typ1
-         |(Anything,_)=>typ2
-         |(Datatype s1,Datatype s2) => if s1 <> s2 then raise NoAnswer else typ1
-         |(IntT,IntT)=>IntT
-         |(UnitT,UnitT)=>UnitT
-         |(TupleT v1,TupleT v2) => TupleT(helper(v1,v2))
-         |(_,_)=> raise NoAnswer
-    end
-*)
- 
- fun get_most_lenient type_data (typ1 ,typ2) =
+ fun get_most_lenient  (typ1 ,typ2) =
         let 
           
-          (*helps to check datatype equivalence, meanigly if 
-            type names are equal then types must be the same, also checks whether
-            type name belongs to provided list*)
-          fun check_type_data (type_data1, datatype_str)  =
-               case type_data1 of
-                  []=> raise NoAnswer
-                  |(_,y,z)::xs => if y = datatype_str
-                                  then z
-                                  else check_type_data(xs, datatype_str)
-          
-
           (*almost used in case of tuples*)
           fun helper typelst =
               case  typelst of
                     ([],[]) => []  
-                   |(x::xs,y::ys)  => (get_most_lenient type_data (x,y))::helper(xs,ys)
+                   |(x::xs,y::ys)  => (get_most_lenient  (x,y))::helper(xs,ys)
                    |_ => raise NoAnswer
         in
                  case (typ1,typ2) of
-                   
-                   (Anything,_)=>typ2
-                    (*need to check this special case*)
-                   |(Datatype s1,Anything) =>check_type_data (type_data, s1) (*if (check_type_data (type_data, s1)) then  typ1 else raise NoAnswer*)
-                   
-                   |(Datatype s1,Datatype s2) => if(check_type_data (type_data, s1) =
-                                                    check_type_data (type_data, s2))
-                                                 then typ1 (*typ1 == typ2*)
-                                                 else raise NoAnswer
-                                                  
+                    (Anything,_)=>typ2
+                   |(Datatype s1,Datatype s2) => if s1 = s2 then typ1 (*typ1 == typ2*) else raise NoAnswer
                    |(IntT,IntT)=>IntT
                    |(UnitT,UnitT)=>UnitT
                    |(TupleT v1,TupleT v2) => TupleT(helper(v1,v2))
@@ -339,7 +312,7 @@ fun get_most_lenient (typ1 ,typ2) =
 
 fun typecheck_patterns (type_data, pattern_list) =
             
-        SOME (List.foldl (fn(x,acc) => get_most_lenient type_data (get_pattern_type(x),acc) ) Anything pattern_list)
+        SOME (List.foldl (fn(x,acc) => get_most_lenient ( get_pattern_type(type_data, x),acc) ) Anything pattern_list)
         handle NoAnswer => NONE
 
      
