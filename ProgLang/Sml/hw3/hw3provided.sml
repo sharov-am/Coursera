@@ -315,4 +315,5 @@ fun typecheck_patterns (type_data, pattern_list) =
         SOME (List.foldl (fn(x,acc) => get_most_lenient ( get_pattern_type(type_data, x),acc) ) Anything pattern_list)
         handle NoAnswer => NONE
 
-     
+
+ 

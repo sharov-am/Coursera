@@ -1,31 +1,28 @@
+signature COUNTER =
+sig
+    type t
+    val newCounter : int -> int
+    val increment : t -> t
+    val first_larger : t * t -> bool
+end
 
-fun swap (pr : int*bool) =
-    (#2 pr, #1 pr)
+structure NoNegativeCounter :> COUNTER = 
+struct
 
-fun swap (pr : int*bool) =
-    (#2 pr, #1 pr)
+exception InvariantViolated
 
-fun sort_tuple(test : int*int) =
-     if (#1 test < #2 test) then test
-     			  else (#2 test ,#1 test)	
+type t = int
 
+fun newCounter i = if i <= 0 then 1 else i
 
-(*val z = swap((100,true))*)
+fun increment i = i + 1
 
-val z1 = sort_tuple((1,2));
-val z1 = sort_tuple((200,100))
-val z1 = sort_tuple((100,2))
+fun first_larger (i1,i2) =
+    if i1 <= 0 orelse i2 <= 0
+    then raise InvariantViolated
+    else (i1 - i2) > 0
 
+end
 
-(* better: returns an int option *)
-fun max1 (xs : int list) =
-    if null xs
-    then NONE
-    else 
-  let val tl_ans = max1(tl xs)
-  in if isSome tl_ans andalso valOf tl_ans > hd xs
-     then tl_ans
-     else SOME (hd xs)
-  end
+val z = NoNegativeCounter.first_larger(NoNegativeCounter.newCounter(1) ,NoNegativeCounter.newCounter(~2));
 
-val z = isSome(max1([]));
