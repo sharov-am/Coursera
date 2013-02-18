@@ -1,31 +1,21 @@
+(* Programming Languages, Dan Grossman, Jan-Mar 2013 *)
+(* Section 4: Modules for Namespace Management *)
 
-fun swap (pr : int*bool) =
-    (#2 pr, #1 pr)
+signature MATHLIB =
+sig
+val fact : int -> int
+val half_pi : real
+(* val doubler : int -> int *) (* can hide bindings from clients *)
+end
 
-fun swap (pr : int*bool) =
-    (#2 pr, #1 pr)
+structure MyMathLib :> MATHLIB =
+struct
+fun fact x =
+    if x=0
+    then 1
+    else x * fact (x - 1)
 
-fun sort_tuple(test : int*int) =
-     if (#1 test < #2 test) then test
-     			  else (#2 test ,#1 test)	
+val half_pi = Math.pi / 2.0
 
-
-(*val z = swap((100,true))*)
-
-val z1 = sort_tuple((1,2));
-val z1 = sort_tuple((200,100))
-val z1 = sort_tuple((100,2))
-
-
-(* better: returns an int option *)
-fun max1 (xs : int list) =
-    if null xs
-    then NONE
-    else 
-  let val tl_ans = max1(tl xs)
-  in if isSome tl_ans andalso valOf tl_ans > hd xs
-     then tl_ans
-     else SOME (hd xs)
-  end
-
-val z = isSome(max1([]));
+fun doubler y = y + y
+end
