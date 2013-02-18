@@ -65,4 +65,126 @@ assert(true,fn () => rev_string("123456") = "654321" ,"problem6 test2");
 assert(true,fn () => rev_string("") = "" ,"problem6 test3");
 
 
+(*Problem 7 test*)
+
+assert(true,fn () => first_answer (fn(x) => if x = 5 then SOME 5 else NONE)  [1,2,3,4,5]  = 5 ,"problem7 test1");
+assert(true,fn () => (first_answer (fn(x) => if x = 6 then SOME 6 else NONE)  [1,2,3,4,5]
+					handle NoAnswer => ~1 ) = ~1 ,"problem7 test2");
+
+(*Problem 8 test*)
+
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  []  =SOME [] ,"problem8 test1");
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  [1,2,3,4,5]  = NONE ,"problem8 test2");
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  [5]  = SOME [5] ,"problem8 test3");
+assert(true,fn () => all_answers (fn(x) => if x = 5 then SOME [5] else NONE)  [5,5]  = SOME [5,5] ,"problem8 test4");
+
+
+(*Problem 9a test*)
+
+assert(true,fn () => count_wildcards Wildcard   = 1 ,"problem9a test1");
+assert(true,fn () => count_wildcards (TupleP ([Wildcard]))   = 1 ,"problem9a test2");
+assert(true,fn () => count_wildcards (TupleP ([Wildcard,Wildcard]))   = 2 ,"problem9a test3");
+assert(true,fn () => count_wildcards (TupleP ([Wildcard,ConstP(1)]))  = 1 ,"problem9a test4");
+assert(true,fn () => count_wildcards (TupleP ([Wildcard,Wildcard,Wildcard,ConstP(1)]))  = 3 ,"problem9a test5");
+assert(true,fn () => count_wildcards (TupleP ([ConstP(1),ConstP(1)]))  = 0 ,"problem9a test6");
+
+(*Problem 9b test*)
+assert(true,fn () => count_wild_and_variable_lengths (TupleP ([Wildcard,Wildcard,Wildcard]))  = 3 ,"problem9b test1");
+assert(true,fn () => count_wild_and_variable_lengths (TupleP ([Wildcard,Wildcard,Variable("hi")]))  = 4 ,"problem9b test2");
+assert(true,fn () => count_wild_and_variable_lengths (TupleP ([Variable("hi")]))  = 2 ,"problem9b test3");
+assert(true,fn () => count_wild_and_variable_lengths (TupleP ([Variable("hi"),Variable"world",Wildcard,Wildcard]))  = 9 ,"problem9b test4");
+
+(*Problem 9c test*)
+assert(true,fn () => count_some_var("hi", (TupleP ([Variable("hi")])))  = 1 ,"problem9c test1");
+assert(true,fn () => count_some_var("hi", (TupleP ([Variable("hi"),Variable("hi"),Variable("h1")])))  = 2 ,"problem9c test2");
+assert(true,fn () => count_some_var("hi2", (TupleP ([Variable("hi"),Variable("hi"),Variable("h1")])))  = 0 ,"problem9c test3");
+assert(true,fn () => count_some_var("wild",ConstructorP ("wild",(Wildcard)))  = 0 ,"problem9c test4");
+assert(true,fn () => count_some_var ("x",TupleP[TupleP[TupleP[Variable "x",ConstructorP("wild",Wildcard)],Wildcard],Variable "x"]) = 2 ,"problem9c test5");
+
+(*count_some_var("wild",ConstructorP ("wild",(Wildcard)))*)
+
+(*Problem10 test*)
+assert(true,fn () => check_pat((TupleP ([Variable("")])))  = true ,"problem10 test1");
+assert(true,fn () => check_pat((TupleP ([Variable("hi")])))  = true ,"problem10 test1");
+assert(true,fn () => check_pat((TupleP ([Variable("hi"),Variable("hi"),Variable("h1")])))  = false ,"problem10 test2");
+assert(true,fn () => check_pat( (TupleP ([Variable("hi1"),Variable("hi2"),Variable("hi3")])))  = true ,"problem10 test3");
+
+(*Problem11 test*)
+
+			   
+
+assert(true,fn () => match( Const 1,TupleP ([Variable("")]))  = NONE ,"problem11 test1");
+assert(true,fn () => match( Const 1,ConstP 1)  = SOME [] ,"problem11 test2");
+assert(true,fn () => match( Tuple[ (Const 1), Unit,Constructor("asd", Const 1), Constructor("dsa",Const 2)], 
+							TupleP ([ConstP 1,UnitP,ConstructorP ("asd", ConstP 1),ConstructorP("dsa",ConstP 2) ]))  
+								  = SOME [] ,"problem11 test3");
+assert(true,fn () => match( Tuple[ (Const 1), Unit,Constructor("asd", Const 1), Constructor("dsa",Const 2)], 
+							TupleP ([Variable("dsa1"), UnitP , Variable("dsa2") ,Variable("dsa3")]))  
+								  = SOME [("dsa3",Constructor("dsa",Const 2)),("dsa2",Constructor("asd", Const 1)),
+								           ("dsa1",Const 1)] ,"problem11 test4");
+
+assert(true,fn () => match(Const 1,Variable("dsa1")) = SOME [("dsa1",Const 1)] ,"problem11 test5");
+assert(true,fn () => match(Tuple ([Const 1,Const 2]),Variable("dsa1")) = SOME [("dsa1",Tuple ([Const 1,Const 2]))] ,"problem11 test6");
+assert(true,fn () => match(Const 1,UnitP) = NONE ,"problem11 test7");
+assert(true,fn () => match(Constructor("dsa",Const 1),ConstructorP("dsa",Variable("z"))) =SOME [("z",Const 1)] ,"problem11 test8");
+assert(true,fn () => match(Constructor("dsa",Const 1),ConstructorP("dsa",Variable("z"))) =SOME [("z",Const 1)] ,"problem11 test8");
+
+(*Problem12 test*)
+
+assert(true,fn () => first_match (Constructor("dsa",Const 1)) ([UnitP,ConstP 1]) = NONE ,"problem12 test1");
+assert(true,fn () => first_match (Const 1) ([UnitP,Variable("z")]) =SOME [("z",Const 1)] ,"problem12 test2");
+assert(true,fn () => first_match (Const 1) ([Variable("z"),Variable("z1")]) =SOME [("z",Const 1)] ,"problem12 test2");
+
+(*Problem 13 test*)
+
+(*
+assert(true,fn () => typecheck_patterns [("abc","foo",IntT),("abc","foo2",UnitT)]  [TupleP([Variable("dsa1"), Variable("dsa2")]), TupleP([ConstP 1, ConstP 2])] = 
+			         SOME (TupleT [IntT,IntT]) ,"problem13 test1");
+
+val z = typecheck_patterns [("abc","foo",UnitT)]  [TupleP([ConstructorP("foo",UnitP)]), TupleP([ConstructorP("foo",UnitP), ConstP 2])];
+assert(true,fn () => typecheck_patterns [("abc","foo",UnitT)]  [TupleP([ConstructorP("foo",UnitP),Wildcard]), TupleP([ConstructorP("foo",UnitP), ConstP 2])] = 
+			         SOME (TupleT [Datatype("foo"), IntT]) ,"problem13 test2");
+assert(true,fn () => typecheck_patterns [("abc","foo",UnitT)]  [TupleP([ConstructorP("foo",UnitP)]), TupleP([ConstP 1, ConstP 2])] = 
+			         NONE ,"problem13 test3");
+*)
+
+
+val t1 = typecheck_patterns ([("A", "A", IntT), ("B", "B", UnitT)],
+            [
+              TupleP [ConstructorP ("A", ConstP 20)],
+              TupleP [ConstructorP ("A", ConstP 10)]
+            ])
+
+val t2 = typecheck_patterns ([],
+            [
+              TupleP [Wildcard, Wildcard],
+              TupleP [Wildcard, TupleP [Wildcard, Wildcard]]
+            ])
+
+val t3 = typecheck_patterns ([],
+            [   
+              TupleP [Wildcard, TupleP [Wildcard, Wildcard]],
+              TupleP [Wildcard, Wildcard]
+            ])
+val t4 = typecheck_patterns ([],
+            [
+              TupleP [Variable "x", Variable "y"],
+              TupleP [Wildcard, Wildcard]
+            ])
+val t5 = typecheck_patterns ([("A", "A", IntT), ("B", "AB", IntT)],
+             [
+               TupleP [ConstructorP ("A", ConstP 20)],
+               TupleP [ConstructorP ("B", ConstP 10)],
+               TupleP [ConstructorP ("A", ConstP 20), Wildcard],
+               TupleP [Wildcard]
+            ])
+val t6 = typecheck_patterns ([],
+             [
+               TupleP [ConstP 10, Wildcard],
+               TupleP [Wildcard, ConstP 20]
+            ])
+val t7 = typecheck_patterns ([], [Variable "x"])
+val t8 = typecheck_patterns ([], [ConstructorP ("A", ConstP 10)])
+val t9 = typecheck_patterns ([], [Wildcard, TupleP [Wildcard]])
+val t10 = typecheck_patterns ([("A", "ABCD", UnitT)], [Wildcard, ConstructorP ("A", UnitP)])
 
