@@ -83,5 +83,5 @@ assert(true,fn () => score( [(Spades,Num 1), (Diamonds,Num 2) ,(Spades,Num 3)],3
 val z = careful_player([(Spades,Num 7),(Hearts,King),(Clubs,Ace),(Diamonds,Num 2)],18);
 val z = careful_player([(Spades,Num 7),(Hearts,King),(Clubs,Ace),(Diamonds,Num 2)],17);
 val z =  careful_player([(Clubs,Ace),(Spades,Ace),(Diamonds,Ace),(Hearts,Ace),(Clubs, Num 10),(Spades, Num 10)], 42);
-
+val z = careful_player([(Spades,Num 7)],8);
 
