@@ -12,4 +12,6 @@
 
 
 
+(define (string-append-map xs suffix)
+  (map (lambda(str)(string-append str suffix)) xs))
 
