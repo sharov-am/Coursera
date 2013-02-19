@@ -259,13 +259,16 @@ TupleT[Anything,TupleT[Anything,Anything]].)
 
 
 
-(*NOTE. Well, I got 107 for this final task but it seems that is not an ideal solution
+(*NOTE. Well, I got total points 107 for this final task but it seems that it is not an ideal solution
   as a style of programming (it could be written in much elegant way) and also it seems that it is not
-  semantically correct. To pass stupid grader test and to write correct program slightly different things.
-  So, I would be really thankful for a comments on my solution and missed test cases.*)
+  semantically correct. To pass stupid grader tests and to write correct program are slightly different things.
+  So, I would be really thankful for any comments on my solution and missed test cases.*)
+
+
 fun get_pattern_type (type_data ,pattern) =
   let 
-   
+ 
+   (*used to check constructor types*)
    fun check_type_data (type_data1, datatype_str,cons_type)  =
                case type_data1 of
                   []=> raise NoAnswer
@@ -273,6 +276,7 @@ fun get_pattern_type (type_data ,pattern) =
                                   then Datatype y
                                   else check_type_data(xs, datatype_str,cons_type)
 
+ (*just helper funxtion to handle Tuple pattern*)
    fun helper ptn =
      case  ptn of
       [] => []  
@@ -285,14 +289,14 @@ fun get_pattern_type (type_data ,pattern) =
    |ConstP v => IntT
    |TupleP v =>  TupleT(helper v)
    |Variable v1 =>Anything
-   |ConstructorP(s,v)=>check_type_data (type_data,s,get_pattern_type(type_data,v)) (*get_pattern_type v*)
+   |ConstructorP(s,v)=>check_type_data (type_data, s, get_pattern_type(type_data,v)) 
 end
 
 
  fun get_most_lenient  (typ1 ,typ2) =
         let 
           
-          (*almost used in case of tuples*)
+          (*just helper funxtion to handle Tuple type*)
           fun helper typelst =
               case  typelst of
                     ([],[]) => []  

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 signature COUNTER =
 sig
     type t
@@ -26,3 +27,26 @@ end
 
 val z = NoNegativeCounter.first_larger(NoNegativeCounter.newCounter(1) ,NoNegativeCounter.newCounter(~2));
 
+=======
+(* Programming Languages, Dan Grossman, Jan-Mar 2013 *)
+(* Section 4: Modules for Namespace Management *)
+
+signature MATHLIB =
+sig
+val fact : int -> int
+val half_pi : real
+(* val doubler : int -> int *) (* can hide bindings from clients *)
+end
+
+structure MyMathLib :> MATHLIB =
+struct
+fun fact x =
+    if x=0
+    then 1
+    else x * fact (x - 1)
+
+val half_pi = Math.pi / 2.0
+
+fun doubler y = y + y
+end
+>>>>>>> 72ff49a61560b46db3dd16ed4fb2429d61881295
