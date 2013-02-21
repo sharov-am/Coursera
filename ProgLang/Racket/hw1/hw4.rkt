@@ -49,7 +49,7 @@
 ;except numbers divisble by 5 are negated (i.e., 1, 2, 3, 4, -5, 6, 7, 8, 9, -10, 11, ...). Remember a stream
 ;is a thunk that when called produces a pair. Here the car of the pair will be a number and the cdr will
 ;be another stream.
-;NOTE. The most obvious solution and simple I came with.
+;NOTE. The most obvious and simple solution I came with.
 (define funny-number-stream
   (letrec ([f (lambda (x) 
                 (if (= (remainder x 5) 0)
@@ -65,8 +65,21 @@
 
 (define dan-then-dog
     (letrec ([f (lambda (x) 
-                (if (= (remainder x 2) 0)
+                (if (even? x)
                 (cons "dan.jpg" (lambda () (f (+ x 1))))   
                 (cons "dog.jpg" (lambda () (f (+ x 1))))))])
     (lambda () (f 0))))
+
+
+(define (stream-add-zero s)
+       (letrec ([f (lambda(x)
+                (cons (cons 0 (car (x))) (lambda() (f (cdr (x))))))])
+      (f s)))
+
+
+;(define (stream-add-zero s)
+;       (letrec ([f (lambda(x)
+;                (cons (cons 0 (car (s))) (lambda() (f (cdr (s))))))])
+;      (f s)))
+
 
