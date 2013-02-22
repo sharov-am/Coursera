@@ -55,7 +55,7 @@
                 (if (= (remainder x 5) 0)
                 (cons (- 0 x) (lambda () (f (+ x 1))))   
                 (cons x (lambda () (f (+ x 1))))))])
-    (lambda () (f 1))))
+    (lambda () (f 0))))
 
 
 ;Write a stream dan-then-dog, where the elements of the stream alternate between the strings "dan.jpg"
