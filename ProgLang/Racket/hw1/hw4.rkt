@@ -71,7 +71,7 @@
     (lambda () (f 0))))
 
 
-;Write a function stream-add-zero that takes a stream s and returns another stream. If s would
+;Write a function stream-add-zero that takes a stream (assoc v lst [is-equal?]s and returns another stream. If s would
 ;produce v for its ith element, then (stream-add-zero s) would produce the pair (0 . v) for its ith
 ;element. Sample solution: 4 lines.
 
@@ -81,4 +81,20 @@
       (f s)))
 
 
+(define (cycle-lists xs ys)
+     (letrec([f (lambda(n)
+                (lambda() (cons  (cons (list-nth-mod xs n) (list-nth-mod ys n)) (f (+ n 1)) )))])
+     (f 0 )))
 
+
+(define (vector-assoc v vec)
+         (letrec  ([len (vector-length vec)]
+                   [f (lambda(current)
+                     (cond[(= current len) #f]
+                          [(pair? (vector-ref vec current)) (if (equal? (car (vector-ref vec current)) v)
+                                                                (vector-ref vec current)
+                                                                (f (+ current 1)))]
+                          [#t (f (+ current 1))]))])
+         (f 0)))
+
+(define vectest (vector 1 "g" "dsa" (cons "dsa" "asd") (cons 1 2)  (cons 2 3) (cons 2 3) (cons 3 "dsad") (cons 3 3) ))
