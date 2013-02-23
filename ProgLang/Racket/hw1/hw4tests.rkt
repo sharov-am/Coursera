@@ -66,3 +66,12 @@
 ; similar to previous but uses only two files and one position on the grid
 (define (visual-zero-only)
   (place-repeatedly (open-window) 0.5 (stream-add-zero dan-then-dog) 27))
+
+
+
+
+(define vectest (vector 1 "g" "dsa" (cons "dsa" "asd") (cons 1 2)  (cons 2 3) (cons 2 3) (cons 3 "dsad") (cons 3 3) ))
+
+(define test
+    (cond([#f 1]
+          [1])))

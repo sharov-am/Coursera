@@ -71,6 +71,7 @@
     (lambda () (f 0))))
 
 
+
 ;Write a function stream-add-zero that takes a stream (assoc v lst [is-equal?]s and returns another stream. If s would
 ;produce v for its ith element, then (stream-add-zero s) would produce the pair (0 . v) for its ith
 ;element. Sample solution: 4 lines.
@@ -81,11 +82,27 @@
       (f s)))
 
 
+;Write a function cycle-lists that takes two lists xs and ys and returns a stream. The lists may or
+;may not be the same length, but assume they are both non-empty. The elements produced by the
+;stream are pairs where the rst part is from xs and the second part is from ys. The stream cycles
+;forever through the lists. For example, if xs is '(1 2 3) and ys is '("a" "b"), then the stream
+;would produce, (1 . "a"), (2 . "b"), (3 . "a"), (1 . "b"), (2 . "a"), (3 . "b"), (1 . "a"),
+;(2 . "b"), etc.
+
 (define (cycle-lists xs ys)
      (letrec([f (lambda(n)
                 (lambda() (cons  (cons (list-nth-mod xs n) (list-nth-mod ys n)) (f (+ n 1)) )))])
      (f 0 )))
 
+
+
+
+;Write a function vector-assoc that takes a value v and a vector vec. It should behave like Racket's
+;assoc library function except (1) it processes a vector (Racket's name for an array) instead of a list and
+;(2) it allows vector elements not to be pairs in which case it skips them. Process the vector elements
+;in order starting from 0. You must use library functions vector-length, vector-ref, and equal?.
+;Return #f if no vector element is a pair with a car eld equal to v, else return the rst pair with an
+;equal car eld. Sample solution is 9 lines, using one local recursive helper function.
 
 (define (vector-assoc v vec)
          (letrec  ([len (vector-length vec)]
@@ -97,4 +114,27 @@
                           [#t (f (+ current 1))]))])
          (f 0)))
 
-(define vectest (vector 1 "g" "dsa" (cons "dsa" "asd") (cons 1 2)  (cons 2 3) (cons 2 3) (cons 3 "dsad") (cons 3 3) ))
+
+;Write a function cached-assoc that takes a list xs and a number n and returns a function that takes
+;one argument v and returns the same thing that (assoc v xs) would return. However, you should
+;use an n-element cache of recent results to possibly make this function faster than just calling assoc (if
+;xs is long and a few elements are returned often). The cache must be a Racket vector of length n that
+;is created by the call to cached-assoc (use Racket library function vector) and used-and-possibly-
+;mutated each time the function returned by cached-assoc is called.
+
+(define (cached-assoc xs n)
+         (letrec([cache (make-vector n)]
+                 [cacheslot 0]
+                 [f (lambda(x)
+                      (cond [(vector-assoc x cache)]
+                            [(let([temp (vector-assoc x xs)])
+                             (if temp
+                                 (begin 
+                                   (vector-set! cache cacheslot temp)
+                                   (set! cacheslot (remainder (+ cacheslot 1) (vector-length cache)))
+                                   temp);begin end
+                                    #f))]))])
+                             f))
+                                  
+                          
+                      
