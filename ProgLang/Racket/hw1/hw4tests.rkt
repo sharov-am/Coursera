@@ -100,15 +100,16 @@
 )
 
 
+(define veclist (list 1 "g" "dsa" (cons "dsa" "asd") (cons 1 2)  (cons 2 3) (cons 2 3) (cons 3 "dsad") (cons 3 3) ))
 (begin
  (print "test cached-assoc")
  (newline)
- (define closure (cached-assoc  vectest 2))
-(equal? (closure 1)   (cons 1 2)) 
-(equal? (closure "g")  #f) 
-(equal? (closure "dsa") (cons "dsa" "asd")) 
-(equal? (closure 3) (cons 3 "dsad"))
-)
+ (define closure (cached-assoc  veclist 2))
+ (equal? (closure 1)   (cons 1 2)) 
+ (equal? (closure "g")  #f) 
+ (equal? (closure "dsa") (cons "dsa" "asd")) 
+ (equal? (closure 3) (cons 3 "dsad"))
+ )
 
 
 
