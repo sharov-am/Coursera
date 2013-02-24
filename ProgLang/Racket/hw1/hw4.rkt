@@ -126,15 +126,16 @@
          (letrec([cache (make-vector n)]
                  [cacheslot 0]
                  [f (lambda(x)
-                      (cond [(vector-assoc x cache)]
+                      (cond [(vector-assoc x cache)] ;check cache, if succeded return cached value
                             [(let([temp (vector-assoc x xs)])
                              (if temp
                                  (begin 
                                    (vector-set! cache cacheslot temp)
                                    (set! cacheslot (remainder (+ cacheslot 1) (vector-length cache)))
                                    temp);begin end
-                                    #f))]))])
-                             f))
+                                    #f))]
+                            [#t #f]))]) ;this artificially addition because if in prevoius condition returned false as result
+                             f))        ;cond coninues evaluating branches, so last statement need to return false 
                                   
                           
                       

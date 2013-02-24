@@ -70,8 +70,45 @@
 
 
 
-(define vectest (vector 1 "g" "dsa" (cons "dsa" "asd") (cons 1 2)  (cons 2 3) (cons 2 3) (cons 3 "dsad") (cons 3 3) ))
 
-(define test
-    (cond([#f 1]
-          [1])))
+
+(begin
+ (print "test for stream-for-n-steps funny-number-stream")
+ (newline)
+(equal? (stream-for-n-steps funny-number-stream 5) (list 0 1 2 3 4)) 
+(equal? (stream-for-n-steps funny-number-stream 16) (list 0 1 2 3 4 -5 6 7 8 9 -10 11 12 13 14 -15)) 
+(equal? (stream-for-n-steps funny-number-stream 0) (list))
+)
+
+(begin
+ (print "test stream-for-n-steps dan-then-dog")
+ (newline)
+(equal? (stream-for-n-steps dan-then-dog 1) (list "dan.jpg")) 
+(equal? (stream-for-n-steps dan-then-dog 2) (list "dan.jpg" "dog.jpg")) 
+(equal? (stream-for-n-steps dan-then-dog 3) (list "dan.jpg" "dog.jpg" "dan.jpg")) 
+(equal? (stream-for-n-steps dan-then-dog 0) (list))
+)
+
+(define vectest (vector 1 "g" "dsa" (cons "dsa" "asd") (cons 1 2)  (cons 2 3) (cons 2 3) (cons 3 "dsad") (cons 3 3) ))
+(begin
+ (print "test vector-assoc")
+ (newline)
+(equal? (vector-assoc 1 vectest)  (cons 1 2)) 
+(equal? (vector-assoc "g" vectest) #f) 
+(equal? (vector-assoc "dsa" vectest) (cons "dsa" "asd")) 
+(equal? (vector-assoc 3 vectest) (cons 3 "dsad"))
+)
+
+
+(begin
+ (print "test cached-assoc")
+ (newline)
+ (define closure (cached-assoc  vectest 2))
+(equal? (closure 1)   (cons 1 2)) 
+(equal? (closure "g")  #f) 
+(equal? (closure "dsa") (cons "dsa" "asd")) 
+(equal? (closure 3) (cons 3 "dsad"))
+)
+
+
+
