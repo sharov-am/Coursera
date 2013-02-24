@@ -137,5 +137,16 @@
                             [#t #f]))]) ;this artificially addition because if in prevoius condition returned false as result
                              f))        ;cond coninues evaluating branches, so last statement need to return false 
                                   
-                          
-                      
+
+
+
+
+(define-syntax while-less
+  (syntax-rules (do)
+    [(while-lees e1 do e2)
+     (let ([t1 e1])
+       (letrec ([loop (lambda (t2)
+                        (if (>= t2 t1)
+                            #t
+                            (loop e2)))])
+         (loop e2)))]))
