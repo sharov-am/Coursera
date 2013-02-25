@@ -122,21 +122,17 @@
 ;is created by the call to cached-assoc (use Racket library function vector) and used-and-possibly-
 ;mutated each time the function returned by cached-assoc is called.
 
-(define (cached-assoc xs1 n)
-         (letrec([xs (list->vector xs1)];to vector to use vector-assoc
-                 [cache (make-vector n)]
+(define (cached-assoc xs n)
+         (letrec([cache (make-vector n)]
                  [cacheslot 0]
                  [f (lambda(x)
                       (cond [(vector-assoc x cache)] ;check cache, if succeded return cached value
-                            [(let([temp (vector-assoc x xs)])
+                            [(let([temp (assoc x xs)])
                              (if temp
                                  (begin 
-                                   ;(print cache)
-                                   ;(newline)
-                                   ;(print xs1)
                                    (vector-set! cache cacheslot temp)
                                    (set! cacheslot (remainder (+ cacheslot 1) (vector-length cache)))
-                                   temp);begin end
+                                    temp)
                                     #f))]
                             [#t #f]))]) ;this artificially addition because of prevoius condition returned false as result
                              f))        ;cond coninues evaluating branches, so last statement need to return false 
