@@ -60,8 +60,10 @@
 ;; We will test eval-under-env by calling it directly even though
 ;; "in real life" it would be a helper function of eval-exp.
 (define (eval-under-env e env)
-  (cond [(var? e) 
+  (cond 
+    [(var? e) 
          (envlookup env (var-string e))]
+        
         [(add? e) 
          (let ([v1 (eval-under-env (add-e1 e) env)]
                [v2 (eval-under-env (add-e2 e) env)])
@@ -70,7 +72,41 @@
                (int (+ (int-num v1) 
                        (int-num v2)))
                (error "MUPL addition applied to non-number")))]
-        ;; CHANGE add more cases here
+    
+        [(isaunit? e) 1 0]
+                
+        [(int? e) e]
+        [(aunit? e) e]
+        
+        [(ifgreater? e)
+           (let ([v1 (eval-under-env (ifgreater-e1 e) env)]
+                 [v2 (eval-under-env (ifgreater-e2 e) env)])
+             (if (and (int? v1) 
+                      (int? v2))
+                    (if (> v1 v2) (ifgreater-e3 e) (ifgreater-e4 e))
+                    (error "MUPL ifgreater applied to non-numbers")))]
+        
+        [(apair? e) 
+          (let ([v1 (eval-under-env (apair-e1 e) env)]
+                [v2 (eval-under-env (apair-e2 e) env)])
+           (apair v1 v2))]
+        
+        [(fst?  e)
+          (if (apair? e) 
+              (apair-e1 e)
+              (error "MUPL fst applied to non-apair"))]
+        
+        [(snd?  e)
+          (if (apair? e) 
+              (apair-e2 e)
+              (error "MUPL fst applied to non-apair"))]
+        
+        [(mlet? e) 
+           (let ([env (cons env (cons (mlet-var e) (mlet-e e)))])
+             (eval-under-env (mlet-body e) env))]
+        
+        
+              ;; CHANGE add more cases here
         [#t (error "bad MUPL expression")]))
 
 ;; Do NOT change
