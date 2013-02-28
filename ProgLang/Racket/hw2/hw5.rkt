@@ -22,8 +22,30 @@
 
 ;; Problem 1
 
-;; CHANGE (put your solutions here)
+(define (racketmuplconv value)
+        (cond[(pair? value) (apair (car value) (cdr value))]
+             [(number? value) (int value)]
+             [(null? value) (aunit)]))
 
+(define (muplracketconv value)
+        (cond[(apair? value) (cons (apair-e1 value) (apair-e2 value))]
+             [(int? value) (int-num value)]
+             [(aunit? value) null]))
+
+             
+
+(define (racketlist->mupllist  list)
+          (if (null? list) 
+                null
+               (cons (racketmuplconv (car list)) (racketlist->mupllist (cdr list)))))
+
+(define (mupllist->racketlist  list)
+          (if (null? list) 
+                null
+               (cons (muplracketconv (car list)) (mupllist->racketlist (cdr list)))))
+
+
+                     
 ;; Problem 2
 
 ;; lookup a variable in an environment
