@@ -102,11 +102,19 @@
               (error "MUPL fst applied to non-apair"))]
         
         [(mlet? e) 
-           (let ([env (cons env (cons (mlet-var e) (mlet-e e)))])
+           (let ([exp (eval-under-env (mlet-e e) env)] 
+                 [env (cons env (cons (mlet-var e) exp))])
              (eval-under-env (mlet-body e) env))]
         
-        
-              ;; CHANGE add more cases here
+        [(fun? e);fun  (nameopt formal body)
+         (let([env (cons env (cons (fun-formal e) null))]) ;adding formal parameter to env
+          (if (fun-nameopt e) 
+             (closure (cons env (cons (fun-nameopt e) (fun-body e))) (fun-body e));adding function closure
+             (closure env (fun-body e))))]
+              
+        [(call? e)
+          (
+         
         [#t (error "bad MUPL expression")]))
 
 ;; Do NOT change
