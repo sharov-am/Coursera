@@ -15,7 +15,7 @@
  (newline)
 (equal? (muplracketconv (apair 1 2)) (cons 1 2))
 (equal? (muplracketconv (int 1)) 1) 
-(equal? (muplracketconv aunit) null )
+(equal? (muplracketconv (aunit)) null )
 )
 
 (begin 
@@ -34,6 +34,10 @@
 (equal? (mupllist->racketlist (list (int 1) (apair 1 2) (aunit))) (list 1 (cons 1 2) null)) 
 )
 
+
+(define (program1)
+  (apair (fun  "program1" "par1" (ifgreater (var "par1") 2 4 5))
+   (call (var "program1") (const 5))))
 
 
 

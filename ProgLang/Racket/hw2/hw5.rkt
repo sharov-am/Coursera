@@ -23,14 +23,18 @@
 ;; Problem 1
 
 (define (racketmuplconv value)
-        (cond[(pair? value) (apair (car value) (cdr value))]
-             [(number? value) (int value)]
-             [(null? value) (aunit)]))
+          (if (or (pair? value) (number? value) (null? value))
+              (cond[(pair? value) (apair (car value) (cdr value))]
+                [(number? value) (int value)]
+                 [(null? value) (aunit)])
+              (error "Unexpected value.")))
 
 (define (muplracketconv value)
-        (cond[(apair? value) (cons (apair-e1 value) (apair-e2 value))]
-             [(int? value) (int-num value)]
-             [(aunit? value) null]))
+        (if (or (apair? value) (int? value) (aunit? value))
+          (cond[(apair? value) (cons (apair-e1 value) (apair-e2 value))]
+               [(int? value) (int-num value)]
+               [(aunit? value) null])
+           (error "Unexpected value.")))
 
              
 
@@ -61,8 +65,8 @@
 ;; "in real life" it would be a helper function of eval-exp.
 (define (eval-under-env e env)
   (cond 
-    [(var? e) 
-         (envlookup env (var-string e))]
+        [(var? e) 
+             (envlookup env (var-string e))]
         
         [(add? e) 
          (let ([v1 (eval-under-env (add-e1 e) env)]
@@ -73,7 +77,8 @@
                        (int-num v2)))
                (error "MUPL addition applied to non-number")))]
     
-        [(isaunit? e) 1 0]
+        [(isaunit? e) 
+          (if(aunit? e) 1 0)]
                 
         [(int? e) e]
         [(aunit? e) e]
@@ -107,14 +112,30 @@
              (eval-under-env (mlet-body e) env))]
         
         [(fun? e);fun  (nameopt formal body)
-         (let([env (cons env (cons (fun-formal e) null))]) ;adding formal parameter to env
           (if (fun-nameopt e) 
-             (closure (cons env (cons (fun-nameopt e) (fun-body e))) (fun-body e));adding function closure
-             (closure env (fun-body e))))]
+             (begin
+               (print "define fun closure")
+               (newline)
+               (print (string-append "for " (fun-nameopt e)))
+               (newline)
+              (closure (cons env (cons (fun-nameopt e) e))  e);adding function closure
+              )
+             (closure env  e))]
               
         [(call? e)
-          (
-         
+         (if (closure? (envlookup env (eval-under-env (call-funexp e) env)))
+             (let* ([cls (call-funexp e)]
+                   [act_param (eval-under-env call-actual (closure-env cls))];;calculate actual parameter
+                   [form_param (fun-formal (closure-fun cls))];get name of formal parameter
+                   [env (cons closure-env (cons form_param act_param))];;extend environment with (formal actual) pair
+                   [f (closure-fun cls)]
+                   [body (fun-body f)])
+             (eval-under-env (body) env))
+            (begin
+             (print (call-funexp e))
+            (error "not a MUPL closure")))]
+                     
+      
         [#t (error "bad MUPL expression")]))
 
 ;; Do NOT change
@@ -153,3 +174,11 @@
 ;; Do NOT change this
 (define (eval-exp-c e)
   (eval-under-env-c (compute-free-vars e) null))
+
+
+
+;;MY simple MUPL test programs
+
+(define (program1)
+  (apair (fun  "program1" "par1" (ifgreater (var "par1") (const 2) (const 4) (const 123)))
+  (call  "program1" (const 5))))
