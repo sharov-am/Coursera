@@ -163,9 +163,10 @@
 ;; Problem 4
 
 (define mupl-map 
-      (mlet "x" f  (mlet "list" lst  (cond([(isunit? lst) aunit]
-                                        [(apair? lst) (apair (call "x" (fst-e lst) ) 
-            )
+      (fun "fname" "fpar" (fun "m" "lst" (apair (ifaunit (var "lst") 
+                                                (call (var "fpar") (fst-e (var "lst")))
+                                                ((call (var "m") (snd-e (var "lst")))
+                                         
 
 (define mupl-mapAddN 
   (mlet "map" mupl-map
