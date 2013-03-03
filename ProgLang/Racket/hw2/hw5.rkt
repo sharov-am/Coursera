@@ -115,7 +115,7 @@
         
         [(mlet? e)  
            (let* ([exp (eval-under-env (mlet-e e) env)] 
-                  [env (append env (list (cons (mlet-var e) exp)))])
+                  [env (append (list (cons (mlet-var e) exp)) env)])
                  (eval-under-env (mlet-body e) env))]
         
         [(fun? e) (closure env  e)]
@@ -155,14 +155,17 @@
 (define (ifeq e1 e2 e3 e4) 
   (mlet "_x" e1 (mlet "_y" e2  
                 (ifgreater (add (ifgreater  (var "_x") (var "_y") (int 1) (int 0)) 
-                                (ifgreater  (var "_y") (var "_x") (int 2) (int 0)))
+                                (ifgreater  (var "_y") (var "_x") (int 1) (int 0)))
                                 (int 0)
                                  e4 
                                  e3))))
 
 ;; Problem 4
 
-(define mupl-map "CHANGE")
+(define mupl-map 
+      (mlet "x" f  (mlet "list" lst  (cond([(isunit? lst) aunit]
+                                        [(apair? lst) (apair (call "x" (fst-e lst) ) 
+            )
 
 (define mupl-mapAddN 
   (mlet "map" mupl-map
