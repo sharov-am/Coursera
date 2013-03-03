@@ -1,6 +1,7 @@
 ;; Programming Languages, Homework 5
 
 #lang racket
+(require rackunit)
 (provide (all-defined-out)) ;; so we can put tests in a second file
 
 ;; definition of structures for MUPL programs - Do NOT change
@@ -40,13 +41,13 @@
 
 (define (racketlist->mupllist  list)
           (if (null? list) 
-                null
-               (cons (racketmuplconv (car list)) (racketlist->mupllist (cdr list)))))
+               (aunit)
+               (apair  (car list) (racketlist->mupllist (cdr list)))))
 
-(define (mupllist->racketlist  list)
-          (if (null? list) 
+(define (mupllist->racketlist  mupllist)
+          (if (aunit? mupllist) 
                 null
-               (cons (muplracketconv (car list)) (mupllist->racketlist (cdr list)))))
+               (cons  (apair-e1 mupllist) (mupllist->racketlist (apair-e2 mupllist)))))
 
 
                      
@@ -78,17 +79,21 @@
                (error "MUPL addition applied to non-number")))]
     
         [(isaunit? e) 
-          (if(aunit? e) 1 0)]
+          (if(aunit? (eval-under-env (isaunit-e e) env)) (int 1) (int 0))]
                 
         [(int? e) e]
         [(aunit? e) e]
         
-        [(ifgreater? e)
+        [(closure? e) e]
+        
+         [(ifgreater? e)
            (let ([v1 (eval-under-env (ifgreater-e1 e) env)]
                  [v2 (eval-under-env (ifgreater-e2 e) env)])
              (if (and (int? v1) 
                       (int? v2))
-                    (if (> v1 v2) (ifgreater-e3 e) (ifgreater-e4 e))
+                    (if (> (int-num v1) (int-num v2)) 
+                        (eval-under-env (ifgreater-e3 e) env)  
+                        (eval-under-env (ifgreater-e4 e) env))   
                     (error "MUPL ifgreater applied to non-numbers")))]
         
         [(apair? e) 
@@ -97,46 +102,41 @@
            (apair v1 v2))]
         
         [(fst?  e)
-          (if (apair? e) 
-              (apair-e1 e)
-              (error "MUPL fst applied to non-apair"))]
+         (let([temp (eval-under-env (fst-e e) env)])
+         (if (apair? temp) 
+              (apair-e1 temp)
+              (error "MUPL fst applied to non-apair")))]
         
         [(snd?  e)
-          (if (apair? e) 
-              (apair-e2 e)
-              (error "MUPL fst applied to non-apair"))]
+         (let([temp (eval-under-env (snd-e e) env)]) 
+         (if (apair? temp) 
+              (apair-e2 temp)
+              (error "MUPL fst applied to non-apair")))]
         
-        [(mlet? e) 
-           (let ([exp (eval-under-env (mlet-e e) env)] 
-                 [env (cons env (cons (mlet-var e) exp))])
-             (eval-under-env (mlet-body e) env))]
+        [(mlet? e)  
+           (let* ([exp (eval-under-env (mlet-e e) env)] 
+                  [env (append env (list (cons (mlet-var e) exp)))])
+                 (eval-under-env (mlet-body e) env))]
         
-        [(fun? e);fun  (nameopt formal body)
-          (if (fun-nameopt e) 
-             (begin
-               (print "define fun closure")
-               (newline)
-               (print (string-append "for " (fun-nameopt e)))
-               (newline)
-              (closure (cons env (cons (fun-nameopt e) e))  e);adding function closure
-              )
-             (closure env  e))]
+        [(fun? e) (closure env  e)]
               
         [(call? e)
-         (if (closure? (envlookup env (eval-under-env (call-funexp e) env)))
-             (let* ([cls (call-funexp e)]
-                   [act_param (eval-under-env call-actual (closure-env cls))];;calculate actual parameter
-                   [form_param (fun-formal (closure-fun cls))];get name of formal parameter
-                   [env (cons closure-env (cons form_param act_param))];;extend environment with (formal actual) pair
-                   [f (closure-fun cls)]
-                   [body (fun-body f)])
-             (eval-under-env (body) env))
-            (begin
-             (print (call-funexp e))
-            (error "not a MUPL closure")))]
+         (let*([cls (eval-under-env (call-funexp e) env)]) ;; get function closure in current env.
+             (if (closure? cls)
+               (let*([fname  (fun-nameopt (closure-fun cls))];;get function name in current env.
+                     [cls_env (closure-env cls)] ;; get closure env.
+                     [cls_env (if fname (append cls_env (list (cons fname cls))) cls_env)] ;;extend closure env with func. name if any
+                     [act_param (eval-under-env (call-actual e) env)];;calculate actual parameter in current (dynamic)  env
+                     [form_param (fun-formal (closure-fun cls))];get name of formal parameter
+                     [cls_env (append (list (cons form_param act_param)) cls_env)];;extend func. environment with (formal actual) pair
+                     [f (closure-fun cls)]     ;; get function from closure
+                     [body (fun-body f)])      ;; get function body
+             (eval-under-env body cls_env))     ;; evaluate function body in closure catched environment
+             (error "not a MUPL closure")))]
                      
       
-        [#t (error "bad MUPL expression")]))
+       ; [#t (error "bad MUPL expression")]
+        ))
 
 ;; Do NOT change
 (define (eval-exp e)
@@ -144,11 +144,18 @@
         
 ;; Problem 3
 
-(define (ifaunit e1 e2 e3) "CHANGE")
+(define (ifaunit e1 e2 e3) (ifgreater (isaunit e1) (int 0) e2 e3))
+                            
 
 (define (mlet* lstlst e2) "CHANGE")
 
-(define (ifeq e1 e2 e3 e4) "CHANGE")
+(define (ifeq e1 e2 e3 e4) 
+  (mlet "_x" e1 (mlet "_y" e2  
+                (ifgreater (add (ifgreater  (var "_x") (var "_y") (int 1) (int 0)) 
+                                (ifgreater  (var "_y") (var "_x") (int 2) (int 0)))
+                                (int 0)
+                                 e4 
+                                 e3))))
 
 ;; Problem 4
 
@@ -177,8 +184,4 @@
 
 
 
-;;MY simple MUPL test programs
 
-(define (program1)
-  (apair (fun  "program1" "par1" (ifgreater (var "par1") (const 2) (const 4) (const 123)))
-  (call  "program1" (const 5))))
