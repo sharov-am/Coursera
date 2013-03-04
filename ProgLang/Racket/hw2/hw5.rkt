@@ -23,20 +23,6 @@
 
 ;; Problem 1
 
-(define (racketmuplconv value)
-          (if (or (pair? value) (number? value) (null? value))
-              (cond[(pair? value) (apair (car value) (cdr value))]
-                [(number? value) (int value)]
-                 [(null? value) (aunit)])
-              (error "Unexpected value.")))
-
-(define (muplracketconv value)
-        (if (or (apair? value) (int? value) (aunit? value))
-          (cond[(apair? value) (cons (apair-e1 value) (apair-e2 value))]
-               [(int? value) (int-num value)]
-               [(aunit? value) null])
-           (error "Unexpected value.")))
-
              
 
 (define (racketlist->mupllist  list)
@@ -82,6 +68,7 @@
           (if(aunit? (eval-under-env (isaunit-e e) env)) (int 1) (int 0))]
                 
         [(int? e) e]
+        
         [(aunit? e) e]
         
         [(closure? e) e]
@@ -146,7 +133,6 @@
 
 (define (ifaunit e1 e2 e3) (ifgreater (isaunit e1) (int 0) e2 e3))
                             
-
 (define (mlet* lstlst e2) 
          (if (null? lstlst) 
           e2 
@@ -163,14 +149,24 @@
 ;; Problem 4
 
 (define mupl-map 
-      (fun "fname" "fpar" (fun "m" "lst" (apair (ifaunit (var "lst") 
-                                                (call (var "fpar") (fst-e (var "lst")))
-                                                ((call (var "m") (snd-e (var "lst")))
-                                         
+      (fun "fname" "fpar" (fun "m" "lst" (ifaunit(var "lst") 
+                                                 (aunit)
+                                                 (apair (call (var "fpar") (fst (var "lst"))) (call (var "m") (snd (var "lst"))))))))
+                                                
+
 
 (define mupl-mapAddN 
   (mlet "map" mupl-map
-        "CHANGE (notice map is now in MUPL scope)"))
+         (fun #f "x" (call (var "map") (fun #f "z" (add (var "x") (var "z"))))))) 
+                                                 
+
+
+;(define mupl-mapAddN 
+;  (mlet "map" mupl-map
+;         (fun "fn" "x" (fun "m" "lst" (ifaunit(var "lst") 
+;                                                 (aunit)
+;                                                 (apair (add (var "x") (fst (var "lst"))) (call (var "m") (snd (var "lst")))))))))
+
 
 ;; Challenge Problem
 

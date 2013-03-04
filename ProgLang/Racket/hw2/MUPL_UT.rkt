@@ -1,3 +1,5 @@
+;NOTE!!! taken from the links provided in this thread -- https://class.coursera.org/proglang-2012-001/forum/thread?thread_id=2944&page=1#coursera_forum_post_13739
+;https://gist.github.com/istepura/5053556
 #lang racket
  
 (require rackunit "hw5.rkt")
@@ -84,29 +86,29 @@
 (int 2)
 (eval-exp (ifeq (int 2) (add (int 1) (int 2)) (int 1) (int 2)))))
  
-;(test-case "mupl-map"
-;(define addtwo (fun "addone" "x" (add (var "x") (int 2))))
-;(define mupl-map-addtwo (call mupl-map addtwo))
-;(check-equal? (eval-exp (call mupl-map-addtwo (aunit))) (aunit))
-; 
-;(define my-mupl-list (apair (int 23) (apair (int 42) (aunit))))
-;(define my-answers (apair (int 25) (apair (int 44) (aunit))))
-;(check-equal? (eval-exp (call mupl-map-addtwo my-mupl-list)) my-answers))
-; 
-;(test-case "mupl-mapAddN"
-;(define input (apair (int 25) (apair (int 44) (aunit))))
-;(define output (apair (int 26) (apair (int 45) (aunit))))
-;(check-equal? (eval-exp (call (call mupl-mapAddN (int 1)) input)) output))
-; 
-;(check-equal? (eval-exp (call (call mupl-mapAddN (int 7))
-;(racketlist->mupllist '())))
-;(aunit) "mapAddN empty list")
-;(check-equal? (eval-exp (call (call mupl-mapAddN (int 7))
-;(racketlist->mupllist (list (int 3) (int 4) (int 9)))))
-;(racketlist->mupllist (list (int 10) (int 11) (int 16))) "mapAddN +7")
-;(check-equal? (eval-exp (call (call mupl-mapAddN (int 7))
-;(racketlist->mupllist (list (int 3)))))
-;(racketlist->mupllist (list (int 10))) "mapAddN single item list")
+(test-case "mupl-map"
+(define addtwo (fun "addone" "x" (add (var "x") (int 2))))
+(define mupl-map-addtwo (call mupl-map addtwo))
+(check-equal? (eval-exp (call mupl-map-addtwo (aunit))) (aunit))
+ 
+(define my-mupl-list (apair (int 23) (apair (int 42) (aunit))))
+(define my-answers (apair (int 25) (apair (int 44) (aunit))))
+(check-equal? (eval-exp (call mupl-map-addtwo my-mupl-list)) my-answers))
+ 
+(test-case "mupl-mapAddN"
+(define input (apair (int 25) (apair (int 44) (aunit))))
+(define output (apair (int 26) (apair (int 45) (aunit))))
+(check-equal? (eval-exp (call (call mupl-mapAddN (int 1)) input)) output))
+ 
+(check-equal? (eval-exp (call (call mupl-mapAddN (int 7))
+(racketlist->mupllist '())))
+(aunit) "mapAddN empty list")
+(check-equal? (eval-exp (call (call mupl-mapAddN (int 7))
+(racketlist->mupllist (list (int 3) (int 4) (int 9)))))
+(racketlist->mupllist (list (int 10) (int 11) (int 16))) "mapAddN +7")
+(check-equal? (eval-exp (call (call mupl-mapAddN (int 7))
+(racketlist->mupllist (list (int 3)))))
+(racketlist->mupllist (list (int 10))) "mapAddN single item list")
 ; add
 (check-equal? (eval-exp (add (int 3) (int 4))) (int 7) "simple add")
 (check-equal? (eval-exp (add (add (int 1) (int 2)) (add (int 3) (int 4)))) (int 10) "complex add")
@@ -156,16 +158,16 @@
 (check-equal? (eval-exp (mlet "double" (fun "double" "x" (add (var "x") (var "x")))
 (call (var "double") (int 10))))
 (int 20) "double function, non-recursive")
-;(check-equal?
-;(eval-exp
-;(mlet "range"
-;(fun "range" "lo"
-;(fun #f "hi"
-;(ifgreater (var "lo") (var "hi") (aunit)
-;(apair (var "lo") (call (call (var "range") (add (int 1) (var "lo"))) (var "hi"))))))
-;(call (call (var "range") (int 5)) (int 8))))
-;(apair (int 5) (apair (int 6) (apair (int 7) (apair (int 8) (aunit))))) "range function, recursive")
-;(check-exn #rx"MUPL" (lambda () (eval-exp (call (int 1) (int 2)))) "call exception")
+(check-equal?
+(eval-exp
+(mlet "range"
+(fun "range" "lo"
+(fun #f "hi"
+(ifgreater (var "lo") (var "hi") (aunit)
+(apair (var "lo") (call (call (var "range") (add (int 1) (var "lo"))) (var "hi"))))))
+(call (call (var "range") (int 5)) (int 8))))
+(apair (int 5) (apair (int 6) (apair (int 7) (apair (int 8) (aunit))))) "range function, recursive")
+(check-exn #rx"MUPL" (lambda () (eval-exp (call (int 1) (int 2)))) "call exception")
 ; else
 ;(check-exn #rx"MUPL" (lambda () (eval-exp (list (int 1) (int 2)))) "bad expression exception")
  
@@ -190,17 +192,17 @@
 (int 3) "complex ifeq false evaluation")
  
 ; mupl-map
-;(check-equal? (eval-exp
-;(call (call mupl-map (fun #f "x" (add (int 1) (var "x"))))
-;(apair (int 1) (apair (int 2) (aunit)))))
-;(apair (int 2) (apair (int 3) (aunit))) "map normal list")
-;(check-equal? (eval-exp
-;(call (call mupl-map (fun #f "x" (add (int 1) (var "x"))))
-;(apair (int 1) (aunit))))
-;(apair (int 2) (aunit)) "map single item list")
-;(check-equal? (eval-exp
-;(call (call mupl-map (fun #f "x" (add (int 1) (var "x"))))
-;(aunit)))
-;(aunit) "map empty list")
+(check-equal? (eval-exp
+(call (call mupl-map (fun #f "x" (add (int 1) (var "x"))))
+(apair (int 1) (apair (int 2) (aunit)))))
+(apair (int 2) (apair (int 3) (aunit))) "map normal list")
+(check-equal? (eval-exp
+(call (call mupl-map (fun #f "x" (add (int 1) (var "x"))))
+(apair (int 1) (aunit))))
+(apair (int 2) (aunit)) "map single item list")
+(check-equal? (eval-exp
+(call (call mupl-map (fun #f "x" (add (int 1) (var "x"))))
+(aunit)))
+(aunit) "map empty list")
 ))
 (run-tests hw5-tests) 
