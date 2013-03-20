@@ -161,29 +161,7 @@
                                                  
 
 
-;(define mupl-mapAddN 
-;  (mlet "map" mupl-map
-;         (fun "fn" "x" (fun "m" "lst" (ifaunit(var "lst") 
-;                                                 (aunit)
-;                                                 (apair (add (var "x") (fst (var "lst"))) (call (var "m") (snd (var "lst")))))))))
 
-
-;; Challenge Problem
-
-(struct fun-challenge (nameopt formal body freevars) #:transparent) ;; a recursive(?) 1-argument function
-
-;; We will test this function directly, so it must do
-;; as described in the assignment
-(define (compute-free-vars e) "CHANGE")
-
-;; Do NOT share code with eval-under-env because that will make
-;; auto-grading and peer assessment more difficult, so
-;; copy most of your interpreter here and make minor changes
-(define (eval-under-env-c e env) "CHANGE")
-
-;; Do NOT change this
-(define (eval-exp-c e)
-  (eval-under-env-c (compute-free-vars e) null))
 
 
 
