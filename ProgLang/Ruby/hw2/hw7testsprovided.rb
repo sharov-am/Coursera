@@ -170,3 +170,12 @@ end
 
 
 
+
+=begin
+         if seg.x1 < @x1 #seg is lefter than self
+           if seg.x2 < @x1  then NoPoints.new end #self does not intersect with seg
+           if self.real_close(@x1,seg.x2) then Point.new(@x1,@y1) end
+           if seg.x2 > @x2  then LineSegment(@x1,@y1,@x2,@y2) end # self inside seg
+           if @x2 > seg.x2 then LineSegment(@x1,@y1,seg.x2,seg.y2) end # self overlaps with seg
+         end
+=end
