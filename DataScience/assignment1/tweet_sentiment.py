@@ -2,10 +2,6 @@ import json
 import sys
 
 
-def hw ():
-    print 'Hello, world!'
-
-
 def afinnParser(fp):
     afinnDict=dict()
     for line in fp.readlines():
