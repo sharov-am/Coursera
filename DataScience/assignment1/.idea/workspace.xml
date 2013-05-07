@@ -4,7 +4,8 @@
     <list default="true" id="87b02c7b-d88b-4ff3-a2f9-f77c3bf0d633" name="Default" comment="" />
     <ignored path="assignment1.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/tweet_sentiment.py" changelist="87b02c7b-d88b-4ff3-a2f9-f77c3bf0d633" time="1367872695469" ignored="false" />
+    <file path="/tweet_sentiment.py" changelist="87b02c7b-d88b-4ff3-a2f9-f77c3bf0d633" time="1367953587443" ignored="false" />
+    <file path="/fragment.py" changelist="87b02c7b-d88b-4ff3-a2f9-f77c3bf0d633" time="1367952355229" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,69 +25,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AFINN-111.txt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AFINN-111.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2458" column="9" selection-start="27931" selection-end="27931" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tweet_sentiment.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="tweet_sentiment.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tweet_sentiment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="42" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="term_sentiment.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/term_sentiment.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="problem1.txt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/problem1.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="93" selection-start="25224" selection-end="25224" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AFINN-README.txt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AFINN-README.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="0" selection-start="302" selection-end="302" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="0" selection-start="318" selection-end="318" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="twitterstream.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/twitterstream.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="63" selection-start="987" selection-end="987" vertical-scroll-proportion="0.50877196">
+            <state line="27" column="16" selection-start="492" selection-end="492" vertical-scroll-proportion="0.48300537">
               <folding>
-                <element signature="e#0#22#0" expanded="true" />
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="decoder.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Python27/Lib/json/decoder.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="368" column="0" selection-start="13138" selection-end="13138" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Python27/Lib/json/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="280" column="4" selection-start="10889" selection-end="10889" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1330106300000" expanded="true" signature="1914:2031" placeholder="..." />
+                <marker date="1330106300000" expanded="true" signature="2353:2505" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -121,12 +86,15 @@
             <id />
           </State>
           <State>
+            <id>General</id>
+          </State>
+          <State>
             <id>Python</id>
           </State>
         </expanded-state>
         <selected-state>
           <State>
-            <id>PyInterpreterInspection</id>
+            <id>Python</id>
           </State>
         </selected-state>
       </profile-state>
@@ -235,9 +203,11 @@
       <module name="assignment1" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tweet_sentiment.py" />
-      <option name="PARAMETERS" value="AFINN-111.txt" />
+      <option name="PARAMETERS" value="AFINN-111.txt  output.txt" />
       <RunnerSettings RunnerId="PyDebugRunner" />
+      <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
@@ -411,18 +381,18 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23581848" sideWeight="0.6276958" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4007353" sideWeight="0.49959514" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23581848" sideWeight="0.66401815" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40068105" sideWeight="0.49959514" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3723042" sideWeight="0.50040483" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33711508" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33598185" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -487,7 +457,19 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/tweet_sentiment.py</url>
+          <line>22</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/tweet_sentiment.py</url>
+          <line>31</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="8" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -504,7 +486,9 @@
     <entry file="file://$PROJECT_DIR$/tweet_sentiment.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="34" selection-start="313" selection-end="313" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -552,16 +536,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AFINN-111.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2458" column="9" selection-start="27931" selection-end="27931" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AFINN-README.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="0" selection-start="302" selection-end="302" vertical-scroll-proportion="0.0">
@@ -569,11 +543,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tweet_sentiment.py">
+    <entry file="file://$PROJECT_DIR$/twitterstream.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="42" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="29" column="63" selection-start="987" selection-end="987" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output.txt">
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/term_sentiment.py">
@@ -583,11 +564,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/twitterstream.py">
+    <entry file="file://C:/Python27/Lib/json/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="63" selection-start="987" selection-end="987" vertical-scroll-proportion="0.50877196">
+        <state line="280" column="4" selection-start="10889" selection-end="10889" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#22#0" expanded="true" />
+            <marker date="1330106300000" expanded="true" signature="1914:2031" placeholder="..." />
+            <marker date="1330106300000" expanded="true" signature="2353:2505" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/json/decoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="368" column="0" selection-start="13138" selection-end="13138" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AFINN-111.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1605" column="3" selection-start="18237" selection-end="18237" vertical-scroll-proportion="0.3668763">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tweet_sentiment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="16" selection-start="492" selection-end="492" vertical-scroll-proportion="0.48300537">
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>

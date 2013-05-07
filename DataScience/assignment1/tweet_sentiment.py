@@ -1,29 +1,45 @@
-
+import json
 import sys
 
-def hw():
+
+def hw ():
     print 'Hello, world!'
 
+
 def afinnParser(fp):
-    afinnDict = dict()
+    afinnDict=dict()
     for line in fp.readlines():
-        splitted = line.strip().split()
-        afinnDict[splitted[0]] = splitted[1]
+        splitted=line.strip().split('\t')
+        afinnDict[splitted[0]]=splitted[1]
     return afinnDict
 
 
-def lines(fp):
-    print str(len(fp.readlines()))
+def twitsParser(fp):
+    data=[]
+    for line in fp:
+        t=json.loads(line.strip())
+        if t.has_key("text"):
+            data.append(t["text"])
+    return data
+
+
+def sentimentCounter(twits, sents):
+    for twit in twits:
+        counter=0
+        splittedTwit=twit.strip().split()
+        for word in splittedTwit:
+            if sents.has_key(word):
+                counter+=int(sents[word])
+        print str(counter)
+
 
 def main():
-    sent_file = open(sys.argv[1])
-    tweet_file = open(sys.argv[2])
-    hw()
-    lines(sent_file)
-    lines(tweet_file)
+    twit_file=open(sys.argv[2])
+    sent_file=open(sys.argv[1])
+    twits=twitsParser(twit_file)
+    sents=afinnParser(sent_file)
+    sentimentCounter(twits, sents)
+
 
 if __name__ == '__main__':
-    # main()
-   sent_file = open(sys.argv[1])
-   for item in afinnParser(sent_file).items():
-       print str(item[0])+"="+str(item[1])
+    main()
