@@ -9,7 +9,7 @@
     <file path="/term_sentiment.py" changelist="87b02c7b-d88b-4ff3-a2f9-f77c3bf0d633" time="1367954404345" ignored="false" />
     <file path="/frequency.py" changelist="87b02c7b-d88b-4ff3-a2f9-f77c3bf0d633" time="1368011048973" ignored="false" />
     <file path="/happiest_state.py" changelist="87b02c7b-d88b-4ff3-a2f9-f77c3bf0d633" time="1368015026621" ignored="false" />
-    <file path="/top_ten.py" changelist="87b02c7b-d88b-4ff3-a2f9-f77c3bf0d633" time="1368020006719" ignored="false" />
+    <file path="/top_ten.py" changelist="87b02c7b-d88b-4ff3-a2f9-f77c3bf0d633" time="1368031865248" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,9 +51,7 @@
         <entry file="file://$PROJECT_DIR$/frequency.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="32" column="26" selection-start="0" selection-end="985" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -61,10 +59,8 @@
       <file leaf-file-name="happiest_state.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/happiest_state.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="50" selection-start="0" selection-end="1435" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+            <state line="24" column="34" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -72,7 +68,7 @@
       <file leaf-file-name="top_ten.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/top_ten.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="24" selection-start="1069" selection-end="1069" vertical-scroll-proportion="0.59749556">
+            <state line="16" column="55" selection-start="628" selection-end="628" vertical-scroll-proportion="0.4293381">
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -489,12 +485,12 @@
       <method />
     </configuration>
     <list size="6">
-      <item index="0" class="java.lang.String" itemvalue="Python.twitterstream" />
-      <item index="1" class="java.lang.String" itemvalue="Python.tweet_sentiment" />
-      <item index="2" class="java.lang.String" itemvalue="Python.term_sentiment" />
-      <item index="3" class="java.lang.String" itemvalue="Python.frequency" />
-      <item index="4" class="java.lang.String" itemvalue="Python.happiest_state" />
-      <item index="5" class="java.lang.String" itemvalue="Python.top_ten" />
+      <item index="0" class="java.lang.String" itemvalue="Python.frequency" />
+      <item index="1" class="java.lang.String" itemvalue="Python.happiest_state" />
+      <item index="2" class="java.lang.String" itemvalue="Python.top_ten" />
+      <item index="3" class="java.lang.String" itemvalue="Python.twitterstream" />
+      <item index="4" class="java.lang.String" itemvalue="Python.tweet_sentiment" />
+      <item index="5" class="java.lang.String" itemvalue="Python.term_sentiment" />
     </list>
     <recent_temporary>
       <list size="3">
@@ -515,17 +511,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1040" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23987034" sideWeight="0.66401815" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2560778" sideWeight="0.66401815" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40635642" sideWeight="0.49959514" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3723042" sideWeight="0.50040483" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33598185" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33598185" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -613,7 +609,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/top_ten.py</url>
-          <line>34</line>
+          <line>17</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
@@ -633,11 +629,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/twitterstream.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="38" selection-start="301" selection-end="301" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="7" column="38" selection-start="301" selection-end="301" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.html">
@@ -657,11 +649,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/twitterstream.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="63" selection-start="987" selection-end="987" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="29" column="63" selection-start="987" selection-end="987" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/output.txt">
@@ -687,11 +675,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AFINN-111.txt">
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="1605" column="3" selection-start="18237" selection-end="18237" vertical-scroll-proportion="0.3668763" />
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/term_sentiment.py">
@@ -704,9 +692,7 @@
     <entry file="file://$PROJECT_DIR$/frequency.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="26" selection-start="0" selection-end="985" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -719,16 +705,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/happiest_state.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="50" selection-start="0" selection-end="1435" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state line="24" column="34" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/top_ten.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="24" selection-start="1069" selection-end="1069" vertical-scroll-proportion="0.59749556">
+        <state line="16" column="55" selection-start="628" selection-end="628" vertical-scroll-proportion="0.4293381">
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
