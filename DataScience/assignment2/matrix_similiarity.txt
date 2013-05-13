@@ -1,0 +1,5 @@
+select fr1.docid,fr2.docid,sum(fr1.count * fr2.count)
+from Frequency fr1 inner join Frequency fr2 
+on fr1.term == fr2.term
+where  fr1.docid < fr2.docid
+       and fr1.docid = "10080_txt_crude" and fr2.docid ="17035_txt_earn"
