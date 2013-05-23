@@ -39,7 +39,7 @@ def reducer(key, list_of_values):
 def main():
     # Assumes first argument is a file of json objects formatted as strings, 
     #one per line.
-    MapReduce.execute(open(sys.argv[1]), mapper, reducer)
+    MapReduce.execute(open(sys.argv[1]), mapper2, reducer2)
 
 if __name__ == '__main__':
     main()

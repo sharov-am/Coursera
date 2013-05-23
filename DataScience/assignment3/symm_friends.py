@@ -67,5 +67,5 @@ def main():
     MapReduce.execute(open(sys.argv[1]), mapper2, reducer2)
 
 if __name__ == '__main__':
-    main()
+     main()
 
