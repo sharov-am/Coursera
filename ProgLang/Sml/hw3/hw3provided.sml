@@ -213,7 +213,7 @@ fun match (v,p)   =
       (_,Wildcard) => SOME []
      |(Const v1,ConstP p1) =>if v1 = p1 then SOME [] else NONE
      |(Unit,UnitP) =>SOME []
-     |(Constructor (s ,v1),ConstructorP (s1, p1) ) => if s = s1 then match(v1,p1) else SOME []
+     |(Constructor (s ,v1),ConstructorP (s1, p1) ) => if s = s1 then match(v1,p1) else NONE
      |(Tuple vs,TupleP ps) => if List.length vs = List.length ps 
                               then case all_answers match (ListPair.zip(vs,ps))  of
                                     SOME v2=>SOME v2
