@@ -123,21 +123,21 @@
 ;mutated each time the function returned by cached-assoc is called.
 
 (define (cached-assoc xs n)
-         (letrec([cache (make-vector n)]
-                 [cacheslot 0]
-                 [f (lambda(x)
-                      (cond [(vector-assoc x cache)] ;check cache, if succeded return cached value
-                            [(let([temp (assoc x xs)])
-                             (if temp
-                                 (begin 
-                                   (vector-set! cache cacheslot temp)
-                                   (set! cacheslot (remainder (+ cacheslot 1) (vector-length cache)))
-                                    temp)
-                                    #f))]
-                            [#t #f]))]) ;this artificially addition because of prevoius condition returned false as result
-                             f))        ;cond coninues evaluating branches, so last statement need to return false 
-                                  
-
+         (letrec
+             ([cache (make-vector n)]
+              [cache-slot 0]
+              [find (lambda(x)
+                      (let ([v-from-cache (vector-assoc x cache)])
+                        (if v-from-cache
+                            v-from-cache
+                            (let ([v-from-xs (vector-assoc x xs)])
+                              (if v-from-xs
+                                  (begin
+                                    (vector-set! cache cache-slot v-from-xs)
+                                    (set! cache-slot (remainder (+ cache-slot 1) n))
+                                    v-from-xs)
+                                  v-from-xs)))))])
+           find))
 
 
 ;Problem 11 macros.
